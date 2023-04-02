@@ -1,0 +1,15 @@
+
+.NavBar {
+  grid-area: n;
+  background-color: rgb(213, 207, 197);
+  padding: 30px;
+}
+.item {  
+  color: rgb(0, 0, 0);   
+  text-decoration: none; /*не подчеркивай*/
+
+}
+.active{  
+  color: rgb(186, 67, 67);    
+
+}

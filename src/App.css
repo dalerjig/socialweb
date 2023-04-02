@@ -1,0 +1,24 @@
+
+.MainStylyy {
+  display:grid;
+  grid-template-rows: 2fr 7fr 1fr; 
+  grid-template-columns: 1fr 7fr;
+  grid-template-areas:
+  "h h"
+  "n c"
+  "w w";
+  
+}
+.MainStylyy_Dialogs{
+  background-color: rgb(70, 70, 211);
+  
+}
+
+/* весь код компилится в единственный файл bundle js(можно увидеть в коде в браузере).
+ Поэтому нужны кмодули css, чтобы одинаковые класснеймы не пересекались в конечном бандл джс
+ */
+
+
+
+
+

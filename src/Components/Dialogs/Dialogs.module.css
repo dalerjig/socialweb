@@ -1,0 +1,20 @@
+.Dialogs {
+    display: grid;
+    grid-template-columns: 2fr 6fr;
+    background-color: rgb(23, 193, 193);
+    /* сам понимает и разбивает дивы на два столбца*/
+}
+
+.dialogItems {
+    color: white;
+    padding: 20px;
+}
+
+.messages {
+    color: rgb(218, 196, 196);
+    padding: 20px;
+}
+
+.message {
+    color: blue;
+}
