@@ -35,7 +35,7 @@ const Dialogs = (props) => {
       <div className={s.messages}>
         <div>{MessageElement}</div>
         <div>
-          ssssssss
+          мой коммит
           <textarea 
             value={state.newMessageBody}
             onChange={updateNewMessageBody}
