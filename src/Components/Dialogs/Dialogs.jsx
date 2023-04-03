@@ -8,6 +8,7 @@ import {
 } from "../../Redux/dialogs-reducer";
 
 const Dialogs = (props) => {
+  
    //локальный стейт для страницы диалогов
 // скорее всего из за локального стейта, отрисовка дублируется???
   let state=props.dialogPage

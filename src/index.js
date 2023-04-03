@@ -14,7 +14,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
 let rerenderEntireThree = () => {
- 
   root.render(
     <Provider store={store}>
     <App //AppState={state}
@@ -30,15 +29,14 @@ let rerenderEntireThree = () => {
 
 
 rerenderEntireThree();
+// store.subscribe(() => {
+//   rerenderEntireThree()
+// }  убираем подписку на изменение стейта и рендер, так как connect сам имеет внутренний subscribe
+//анонимная функция внутри вызывается при изменении стейта
+// теперь перерисовывается только та компонента, которая меняет стейт!!!!!!!!
 
-// store.subscribe(rerenderEntireThree)
-
-store.subscribe(() => {
-  rerenderEntireThree()
-} 
-)//анонимная функция внутри вызывается при изменении стейта
-
-
+//стейт-объект.при изменении нам нужно создавать копию стейта, ибо
+//оригинальный(начальный) не меняется, но мы можем поменять его создав копию стейта с новыми данными
 
 
 

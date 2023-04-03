@@ -6,7 +6,6 @@ import {
   updateNewPostTextActionCreator,
 } from "./../../../Redux/content-reducer";
 import ALLPosts from "./ALLPosts";
-
 import { connect } from "react-redux";
 
 // const ALLPostsContainer = (props) => {

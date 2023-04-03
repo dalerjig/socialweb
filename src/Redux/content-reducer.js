@@ -9,17 +9,26 @@ let initialState = {
     newPostText: "Halloou"
 }
 
+// reducer должен как и все наши фун-е компоненты быть иммутабельным
+// на входе имеет стейт и экшн. стейт меняется==нарушение иммутабельности
+// для этого делаем внутри функции локальную копию стейта, в которой будут происходить изменения
+// 1) вход-ориг стейт, 2) создание копии стейта(работа с копией) 3) выход-ориг стейт
+
 
 const contentReducer = (state=initialState,action) => {//для начальной компиляции используем начальный стейт
     if (action.type === ADD_POST) {
-        let newPost = { id: 5, message: state.newPostText, LikesCount: 0 }
-        state.PostData.push(newPost)
-        state.newPostText = ''
-        return state
+        let stateCopy={...state}//делаем копию стейта
+        stateCopy.PostData=[...state.PostData]//делаем глубокую копию массива==объекта
+
+        let newPost = { id: 5, message: stateCopy.newPostText, LikesCount: 0 }
+        stateCopy.PostData.push(newPost)
+        stateCopy.newPostText = ''
+        return stateCopy
     }
     else if (action.type === UPDATE_NEW_POST_TEXT) {
-        state.newPostText = action.newText//ибо UpdateNewPostText(newText)
-        return state;
+        let stateCopy={...state}// делаем поверхностную копию, ибо внутренный объект в этом блоке не используется
+        stateCopy.newPostText = action.newText//ибо UpdateNewPostText(newText)
+        return stateCopy;
     }
     return state;
 }

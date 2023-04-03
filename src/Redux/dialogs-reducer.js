@@ -23,16 +23,20 @@ const dialogsReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY:
-            state.newMessageBody = action.body//получаем сообщение в стейт
-            return state
-
+            {
+                let stateCopy = { ...state }
+                stateCopy.newMessageBody = action.body//получаем сообщение в стейт
+                return stateCopy
+            }
         case SEND_MESSAGE:
-
-            let body = state.newMessageBody
-            state.MessageData.push({ id: 5, message: body })
-            state.newMessageBody = ''
-            return state
-
+            {
+                let stateCopy = { ...state }
+                stateCopy.MessageData=[ ...state.MessageData ]
+                let body = stateCopy.newMessageBody
+                stateCopy.MessageData.push({ id: 5, message: body })
+                stateCopy.newMessageBody = ''
+                return stateCopy
+            }
         default:
             return state //вместо брейка в каждом кейсе, в случае, если ни один экшн не отработал
     }
