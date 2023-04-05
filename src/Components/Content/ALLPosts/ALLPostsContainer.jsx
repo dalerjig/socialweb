@@ -1,6 +1,5 @@
 // import s from "./ALLPosts.module.css";
-import Post from "./Post/Post";
-import React from "react";
+
 import {
   addPostActionCreator,
   updateNewPostTextActionCreator,
@@ -43,6 +42,7 @@ let mapStateToProps=(state)=> {
     newPostText:state.profilePage.newPostText
   };
 }
+
 let mapDispatchToProps=(dispatch)=>{ 
   return{
     updateNewPostText:(text)=>{

@@ -6,7 +6,7 @@ let initialState = {
         { id: 0, message: "Hi! How are you?", LikesCount: 13 },
         { id: 1, message: "It is my first post!", LikesCount: 26 },
     ],
-    newPostText: "Halloou"
+    newPostText: ""
 }
 
 // reducer должен как и все наши фун-е компоненты быть иммутабельным
@@ -15,19 +15,27 @@ let initialState = {
 // 1) вход-ориг стейт, 2) создание копии стейта(работа с копией) 3) выход-ориг стейт
 
 
-const contentReducer = (state=initialState,action) => {//для начальной компиляции используем начальный стейт
-    if (action.type === ADD_POST) {
-        let stateCopy={...state}//делаем копию стейта
-        stateCopy.PostData=[...state.PostData]//делаем глубокую копию массива==объекта
+const contentReducer = (state = initialState, action) => {//для начальной компиляции используем начальный стейт
 
-        let newPost = { id: 5, message: stateCopy.newPostText, LikesCount: 0 }
-        stateCopy.PostData.push(newPost)
-        stateCopy.newPostText = ''
-        return stateCopy
+    if (action.type === ADD_POST) {
+
+        let newPost = { id: 5, message: state.newPostText, LikesCount: 0 }
+        return {
+            ...state,
+            PostData: [...state.PostData, newPost],
+            newPostText: ''
+        }
+        //stateCopy.PostData=[...state.PostData]//делаем глубокую копию массива==объекта
+        //stateCopy.PostData.push(newPost)
+        //stateCopy.newPostText = ''
+        //eturn stateCopy
     }
     else if (action.type === UPDATE_NEW_POST_TEXT) {
-        let stateCopy={...state}// делаем поверхностную копию, ибо внутренный объект в этом блоке не используется
-        stateCopy.newPostText = action.newText//ибо UpdateNewPostText(newText)
+        let stateCopy = {
+            ...state,
+            newPostText: action.newText
+        }// копируем только то что нужно
+        //stateCopy.newPostText = action.newText//ибо UpdateNewPostText(newText)
         return stateCopy;
     }
     return state;

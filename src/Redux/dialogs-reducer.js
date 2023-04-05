@@ -20,23 +20,31 @@ let initialState = {
 
 const dialogsReducer = (state = initialState, action) => {
     //важно сначала передать стейт а потом уже экшн
-
+    //let stateCopy;// чтобы избавиться от {}
+    //избавимся от переменной copy
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY:
-            {
-                let stateCopy = { ...state }
-                stateCopy.newMessageBody = action.body//получаем сообщение в стейт
-                return stateCopy
+            //stateCopy = 
+            return{
+                ...state,
+                newMessageBody: action.body
             }
+            //stateCopy.newMessageBody = action.body//получаем сообщение в стейт
+            //return stateCopy
+
         case SEND_MESSAGE:
-            {
-                let stateCopy = { ...state }
-                stateCopy.MessageData=[ ...state.MessageData ]
-                let body = stateCopy.newMessageBody
-                stateCopy.MessageData.push({ id: 5, message: body })
-                stateCopy.newMessageBody = ''
-                return stateCopy
+            let body = state.newMessageBody
+            //stateCopy = 
+            return{
+                ...state,
+                newMessageBody: '',
+                MessageData: [...state.MessageData, { id: 5, message: body }]//вместо push
             }
+            //stateCopy.MessageData = [...state.MessageData]
+            //stateCopy.MessageData.push({ id: 5, message: body })
+            //stateCopy.newMessageBody = ''
+            //return stateCopy
+
         default:
             return state //вместо брейка в каждом кейсе, в случае, если ни один экшн не отработал
     }
