@@ -16,13 +16,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 let rerenderEntireThree = () => {
   root.render(
     <Provider store={store}>
-    <App //AppState={state}
-    //getState()вызываем, а AddPost не вызываем тут, а пробрасываем по пропсам
-      // AddPost={store.AddPost.bind(store)}//биндим AddPost за объектом store иначе передастся по props неверно,
-      // updateNewPostText={store.UpdateNewPostText.bind(store)}// то есть теперь this==store в getState, а не state. изначально this=window 
-      //dispatch={store.dispatch.bind(store)}
-      //store={store}
-    />
+      <App/>
     </Provider>
   );
 }

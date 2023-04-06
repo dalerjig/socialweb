@@ -7,7 +7,7 @@ const Content = (props) => {
     <div className={s.Content}>
       <Profile />
       <ALLPostsContainer
-        store={props.store}
+        //store={props.store}
       />
     </div>
   );

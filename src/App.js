@@ -4,9 +4,9 @@ import NavBar from './Components/NavBar/NavBar';
 import WeatherColumn from './Components//WeatherColumn/WeatherColumn';
 import Content from './Components/Content/Content';
 import Header from './Components/Header/Header';
-import Dialogs from './Components/Dialogs/Dialogs';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
+import UsersContainer from './Components/Users/UsersContainer';
 
 
 const App = (props) => { //теперь апп-тег <App/>
@@ -19,12 +19,14 @@ const App = (props) => { //теперь апп-тег <App/>
         <WeatherColumn />
         <Routes>
           <Route path='/masseges/*' element={<DialogsContainer 
-          store={props.store}
+          //store={props.store} благодаря провайдеру стор виден в контейнере, т.е только там где он используется
           />} />
           <Route path='/profile' element={<Content
-            store={props.store}
-          />} />
-
+          // store={props.store}
+          />}/>
+          <Route path='/users' element={<UsersContainer
+           //store={props.store}
+          />}/>
         </Routes>
 
 
