@@ -1,90 +1,93 @@
 import React from "react";
-import axios from 'axios' //импорт всего из axios, как объект с названием axios в новой версии без * as
-import userPhoto from '../../assets/images/user.png' //импорт картинки
-let Users = (props) => {
+import axios from "axios"; //импорт всего из axios, как объект с названием axios в новой версии без * as
+import userPhoto from "../../assets/images/user.png"; //импорт картинки
 
-  if(props.users.length===0){// сначала пустой стейт, далее если он пустой, вызывается метод сетюзерс и заполняет стейт.
-    //чтобы избежать зацикливания сетюзерс, ставим проверку.только после нее отрисовывается компонента
-      axios.get("https://social-network.samuraijs.com/api/1.0/users")
-      .then( response=>{ 
-       
-        props.setUsers(response.data.items)}) //по дебагу ищем
-        
+// делаем из компоненты юзерз-классовый объект
+// теперь реакт не будет постоянно создавать новый объект при изменении чего либо конкретно в этой компоненте.
+// при смене роута, ререндерится все и объект тоже
+// !!!больше нет сайдэффекта
 
-      //бывают запросы типа get post put delete. По ссылке можно увидеть json файл.
-      //после реквеста на сервер, респонз приходит не сразу 
-      // json файл-объект в котором ключи в ковычках
-    // props.setUsers([
-    // {
-    //     id: 0,
-    //     fullName: "Daler",
-    //     followed: true,
-    //     status: 'lol',
-    //     location: { city: "Dushabe", country: 'TJ' },
-    //     profilePhoto: 'https://res.cloudinary.com/demo/image/upload/c_thumb,g_face,w_200,h_200/lady.jpg'
-    // },
-    // {
-    //     id: 1,
-    //     fullName: "July",
-    //     followed: true,
-    //     status: 'here',
-    //     location: { city: "Moscow", country: 'Russia' },
-    //     profilePhoto: 'https://res.cloudinary.com/demo/image/upload/c_thumb,g_face,w_200,h_200/lady.jpg'
-    // },
-    // {
-    //     id: 2,
-    //     fullName: "Dior",
-    //     followed: false,
-    //     status: 'lol',
-    //     location: { city: "Zelenograd", country: 'Russia' },
-    //     profilePhoto: 'https://res.cloudinary.com/demo/image/upload/c_thumb,g_face,w_200,h_200/lady.jpg'
-    // },
-    // {
-    //     id: 3,
-    //     fullName: "Polina",
-    //     followed: false,
-    //     status: 'lol',
-    //     location: { city: "Zelenograd", country: 'Russia' },
-    //     profilePhoto: 'https://res.cloudinary.com/demo/image/upload/c_thumb,g_face,w_200,h_200/lady.jpg'
-    // }]
-    // )
-  }
+class Users extends React.Component {
 
-  return (
+
+  //стандартный конструктор, в котором сидит метод супер из родительской реактовой компоненты
+  //если в нем только метод супер, то можно не писать.
+  // но мы засунем генерацию пользователей в конструктор
+  constructor(props) {
+    super(props);
     
-    <div>
-      {props.users.map((u) => (
-        <div>
-          <span>
-            <div>
-              <img src={u.photos.small!= null?u.photos.small: userPhoto} />
-            </div>
-            
-            <div>
-              
-               {u.followed 
-               ?<button onClick={()=>{props.unFollow(u.id)}}>Unfollow</button>
-               :<button onClick={()=>{props.follow(u.id)}}>Follow</button>
-               }  
-            </div>
-          </span>
+    axios.get("https://social-network.samuraijs.com/api/1.0/users")
+     .then((response) => {this.props.setUsers(response.data.items)})
+      
+  // тут без  if ибо объект создается один раз при перехое на /users а далее просто перерисовывается jsx
+}
 
-          <span>
+  // getUsers = () => {
+  //   if (this.props.users.length === 0) {
+  //      будем получать юзеров по клику кнопки
+  //     axios
+  //       .get("https://social-network.samuraijs.com/api/1.0/users")
+  //       .then((response) => {
+  //         this.props.setUsers(response.data.items);
+  //       }); //по дебагу ищем
+
+  //     бывают запросы типа get post put delete. По ссылке можно увидеть json файл.
+  //     после реквеста на сервер, респонз приходит не сразу
+  //      json файл-объект в котором ключи в ковычках
+  //   }
+  // };
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.getUsers}>Get Users</button>
+        {this.props.users.map((u) => (
+          <div>
             <span>
-              <div>{u.name}</div>
-              {/* меняем фулнейм на нейм как в апи */}
-              <div>{u.status}</div>
+              <div>
+                <img
+                  src={u.photos.small != null ? u.photos.small : userPhoto}
+                />
+              </div>
+
+              <div>
+                {u.followed ? (
+                  <button
+                    onClick={() => {
+                      this.props.unFollow(u.id);
+                    }}
+                  >
+                    Unfollow
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      this.props.follow(u.id);
+                    }}
+                  >
+                    Follow
+                  </button>
+                )}
+              </div>
             </span>
 
             <span>
-               <div>{"u.location.country"}</div> 
-               {/* так как в апи нет ключа локейшн */}
-              <div>{"u.location.city"}</div> 
+              <span>
+                <div>{u.name}</div>
+                {/* меняем фулнейм на нейм как в апи */}
+                <div>{u.status}</div>
+              </span>
+
+              <span>
+                <div>{"u.location.country"}</div>
+                {/* так как в апи нет ключа локейшн */}
+                <div>{"u.location.city"}</div>
+              </span>
             </span>
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-};
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
 export default Users;

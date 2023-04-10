@@ -18,15 +18,9 @@ const App = (props) => { //теперь апп-тег <App/>
         <NavBar />
         <WeatherColumn />
         <Routes>
-          <Route path='/masseges/*' element={<DialogsContainer 
-          //store={props.store} благодаря провайдеру стор виден в контейнере, т.е только там где он используется
-          />} />
-          <Route path='/profile' element={<Content
-          // store={props.store}
-          />}/>
-          <Route path='/users' element={<UsersContainer
-           //store={props.store}
-          />}/>
+          <Route path='/masseges/*' element={<DialogsContainer />} />
+          <Route path='/profile' element={<Content />} />
+          <Route path='/users' element={<UsersContainer/>} />
         </Routes>
 
 
