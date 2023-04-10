@@ -2,45 +2,29 @@ import React from "react";
 import axios from "axios"; //импорт всего из axios, как объект с названием axios в новой версии без * as
 import userPhoto from "../../assets/images/user.png"; //импорт картинки
 
-// делаем из компоненты юзерз-классовый объект
-// теперь реакт не будет постоянно создавать новый объект при изменении чего либо конкретно в этой компоненте.
-// при смене роута, ререндерится все и объект тоже
-// !!!больше нет сайдэффекта
-
 class Users extends React.Component {
 
-
-  //стандартный конструктор, в котором сидит метод супер из родительской реактовой компоненты
-  //если в нем только метод супер, то можно не писать.
-  // но мы засунем генерацию пользователей в конструктор
-  constructor(props) {
-    super(props);
-    
-    axios.get("https://social-network.samuraijs.com/api/1.0/users")
-     .then((response) => {this.props.setUsers(response.data.items)})
-      
-  // тут без  if ибо объект создается один раз при перехое на /users а далее просто перерисовывается jsx
-}
-
-  // getUsers = () => {
-  //   if (this.props.users.length === 0) {
-  //      будем получать юзеров по клику кнопки
-  //     axios
-  //       .get("https://social-network.samuraijs.com/api/1.0/users")
-  //       .then((response) => {
-  //         this.props.setUsers(response.data.items);
-  //       }); //по дебагу ищем
-
-  //     бывают запросы типа get post put delete. По ссылке можно увидеть json файл.
-  //     после реквеста на сервер, респонз приходит не сразу
-  //      json файл-объект в котором ключи в ковычках
-  //   }
-  // };
+  componentDidMount() {
+    // сообщаем что компонента уже вмонтирована. более не нужно делать запросы на сервер
+    axios
+      .get("https://social-network.samuraijs.com/api/1.0/users")
+      .then((response) => {
+        this.props.setUsers(response.data.items);
+      });
+  }
 
   render() {
+    // ибо реакт делает так let m1=new Users
+    // let jsx= m1.render
     return (
       <div>
-        <button onClick={this.getUsers}>Get Users</button>
+        <div>
+          <span>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>5</span>
+        </div>
         {this.props.users.map((u) => (
           <div>
             <span>
