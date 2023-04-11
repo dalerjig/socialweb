@@ -1,7 +1,7 @@
 
 import { connect } from "react-redux";
-import { followAC, setUsersAC,setCurrentPageAC,setTotalUsersCountAC, toggleIsFetchingAC } from "../../Redux/user-reducer";
-import { unFollowAC } from "../../Redux/user-reducer";
+import { follow, setUsers,setCurrentPage,setTotalUsersCount, toggleIsFetching } from "../../Redux/user-reducer";
+import { unFollow } from "../../Redux/user-reducer";
 import React from "react";
 import axios from "axios"; 
 import Users from "./Users";
@@ -27,9 +27,9 @@ class UsersContainer extends React.Component {
         });
     }
     onPageChanged = (pageNumber) => {
-      
+      //если сюда передать currentPage из AC то всегда будет первая страница. pageNumber-выбранная нами страница
       this.props.setCurrentPage(pageNumber);
-      //!!!видимо для этого, ибо page number получаем при клике и сразе же с этим значением делаем запрос на апи
+      
       this.props.toggleIsFetching(true)
       axios
         .get(
@@ -66,27 +66,38 @@ class UsersContainer extends React.Component {
 let mapStateToProps = (state) => {
     return {
         users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage :state.usersPage.currentPage,
-        isFetching :state.usersPage.isFetching
+        pageSize:state.usersPage.pageSize,
+        totalUsersCount:state.usersPage.totalUsersCount,
+        currentPage:state.usersPage.currentPage,
+        isFetching:state.usersPage.isFetching
     }
   
 }
 
-let mapDispatchToProps = (dispatch) => {
+// let mapDispatchToProps = (dispatch) => {
    
-    return{
-        follow: (userId)=>{dispatch(followAC(userId))},
-        unFollow: (userId)=>{dispatch(unFollowAC(userId))},
-        setUsers: (users)=>{dispatch(setUsersAC(users))},
-        setCurrentPage:(pageNumber)=>{dispatch(setCurrentPageAC(pageNumber))},// !!!уточнить почему!!!!
-        setTotalUsersCount:(totalCount)=>{dispatch(setTotalUsersCountAC(totalCount))},
-        toggleIsFetching:(isFetching)=>{dispatch(toggleIsFetchingAC(isFetching))}
-    }
+//     return{
+//         follow: (userId)=>{dispatch(followAC(userId))},
+//         unFollow: (userId)=>{dispatch(unFollowAC(userId))},
+//         setUsers: (users)=>{dispatch(setUsersAC(users))},
+//         setCurrentPage:(pageNumber)=>{dispatch(setCurrentPageAC(pageNumber))},// !!!уточнить почему!!!!
+//         setTotalUsersCount:(totalCount)=>{dispatch(setTotalUsersCountAC(totalCount))},
+//         toggleIsFetching:(isFetching)=>{dispatch(toggleIsFetchingAC(isFetching))}
+//     }
 
-}
+// }
 
 //const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent);
-UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+
+//если вы передаете в connect вторым аргументом не mapDispatchToProps, а объект с AC, 
+//то connect оборачивает ваши AC в функцию-обертку () => store.dispatch(AC) и передаёт в props компонента.
+
+
+UsersContainer = connect(mapStateToProps, {
+  follow,
+  unFollow,
+  setUsers,
+  setCurrentPage,
+  setTotalUsersCount,
+  toggleIsFetching})(UsersContainer);
 export default UsersContainer
