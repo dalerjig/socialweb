@@ -5,27 +5,7 @@ import {
 import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
 
-// const DialogsContainer = (props) => {
-//   let state = props.store.getState().dialogPage; //sssлокальный стейт для страницы диалогов
-//   // скорее всего из за локального стейта, отрисовка дублируется???
 
-//   let onNewMessageChange = (body) => {
-//     props.store.dispatch(updateNewMessageBodyActionCreator(body));
-//   };
-
-//   let onSendMessage = () => {
-//     props.store.dispatch(sendMessageActionCreator());
-//   };
-
-//   return (
-//     <Dialogs
-//       updateNewMessage={onNewMessageChange}
-//       onSendMessageClick={onSendMessage}
-//       newMessageBody={state.newMessageBody}
-//       dialogPage={state}
-//     />
-//   );
-// };
 
 let mapStateToProps=(state)=> {
   return {

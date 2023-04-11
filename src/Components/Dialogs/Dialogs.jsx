@@ -1,11 +1,8 @@
-// import { NavLink } from "react-router-dom";
+
 import s from "./Dialogs.module.css";
 import MessagesItem from "./MessageItem/MessageItem";
 import DialogItem from "./DialogItem/DialogItem";
-import {
-  updateNewMessageBodyActionCreator,
-  sendMessageActionCreator,
-} from "../../Redux/dialogs-reducer";
+
 
 const Dialogs = (props) => {
   
@@ -19,7 +16,7 @@ const Dialogs = (props) => {
     <MessagesItem message={m.message} />
   ));
 
-  let newMessageBody = props.newMessageBody;
+  //let newMessageBody = props.newMessageBody;
  
   let updateNewMessageBody = (e) => {
     let body = e.target.value; //то что введено

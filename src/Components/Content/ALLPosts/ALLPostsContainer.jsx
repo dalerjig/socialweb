@@ -7,33 +7,6 @@ import {
 import ALLPosts from "./ALLPosts";
 import { connect } from "react-redux";
 
-// const ALLPostsContainer = (props) => {
-//   let state = props.store.getState();
-
-//   let addPost = () => {
-//     props.store.dispatch(addPostActionCreator());
-//     //let text = newPostElem.current.value;
-//     //props.updateNewPostText("");
-//     //newPostElem.current.value = ""; //для пустой строки
-//     //current.value-определенному хтмл элементу
-//     //props.AddPost();
-//   };
-
-//   let onPostChange = (text) => {
-//     // let text = newPostElem.current.value;
-//      let action=updateNewPostTextActionCreator(text)
-//     props.store.dispatch(action);
-//   };
-
-//   return (
-//     <ALLPosts
-//       addPost={addPost}
-//       updateNewPostText={onPostChange}
-//       newPostText={state.profilePage.newPostText}
-//       posts={state.profilePage.PostData}
-//     />
-//   );
-// };
 
 
 let mapStateToProps=(state)=> {
