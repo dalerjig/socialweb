@@ -55,7 +55,7 @@ class UsersContainer extends React.Component {
           onPageChanged={this.onPageChanged}// тут без пропсов, ибо метод лежит в самом классе!
           users={this.props.users}
           follow={this.props.follow}
-          unFollow={this.props.unFollow}
+          unFollow={this.props.unFollow}//а можно было бы {...this.props} вместо всего
         />
       </>
     }

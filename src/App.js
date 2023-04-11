@@ -7,7 +7,7 @@ import Header from './Components/Header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
 import UsersContainer from './Components/Users/UsersContainer';
-
+import ContentContainer from './Components/Content/ContentContainer';
 
 const App = (props) => { //теперь апп-тег <App/>
 
@@ -19,7 +19,7 @@ const App = (props) => { //теперь апп-тег <App/>
         <WeatherColumn />
         <Routes>
           <Route path='/masseges/*' element={<DialogsContainer />} />
-          <Route path='/profile' element={<Content />} />
+          <Route path='/profile' element={<ContentContainer />} />
           <Route path='/users' element={<UsersContainer/>} />
         </Routes>
 
