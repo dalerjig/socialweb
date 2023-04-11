@@ -1,10 +1,12 @@
 
 import { connect } from "react-redux";
-import { followAC, setUsersAC,setCurrentPageAC,setTotalUsersCountAC } from "../../Redux/user-reducer";
+import { followAC, setUsersAC,setCurrentPageAC,setTotalUsersCountAC, toggleIsFetchingAC } from "../../Redux/user-reducer";
 import { unFollowAC } from "../../Redux/user-reducer";
 import React from "react";
-import axios from "axios"; //импорт всего из axios, как объект с названием axios в новой версии без * as
+import axios from "axios"; 
 import Users from "./Users";
+import Preloader from "../common/Preloader/Preloader";
+
 
 
 // ибо реакт делает так let m1=new Users
@@ -12,31 +14,40 @@ import Users from "./Users";
 class UsersContainer extends React.Component {
     componentDidMount() {
       // сообщаем что компонента уже вмонтирована. более не нужно делать запросы на сервер
+      this.props.toggleIsFetching(true)// перед началом запроса для отображения прелоадера
       axios
         .get(
           `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
         )
         //page и count в документации https://social-network.samuraijs.com/api/1.0/
         .then((response) => {
+          this.props.toggleIsFetching(false)//тут уже пришел ответ, передаем фалсе, чтобы прелоадер больше не крутился
           this.props.setUsers(response.data.items);
           this.props.setTotalUsersCount(response.data.totalCount); //получаем общее кол-во людей из апи
         });
     }
     onPageChanged = (pageNumber) => {
+      
       this.props.setCurrentPage(pageNumber);
       //!!!видимо для этого, ибо page number получаем при клике и сразе же с этим значением делаем запрос на апи
+      this.props.toggleIsFetching(true)
       axios
         .get(
           `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`
         )
         //page и count в документации https://social-network.samuraijs.com/api/1.0/
         .then((response) => {
+          this.props.toggleIsFetching(false)
           this.props.setUsers(response.data.items);
         });
     };
-  
+   debugger;
     render() {
-      return (
+      // обернем <Users/> в <></>
+      return <>
+      
+        {this.props.isFetching ? <Preloader/> : null }
+        
         <Users
           totalUsersCount={this.props.totalUsersCount}
           pageSize={this.props.pageSize}
@@ -46,16 +57,19 @@ class UsersContainer extends React.Component {
           follow={this.props.follow}
           unFollow={this.props.unFollow}
         />
-      );
+      </>
     }
   }
+
+
 
 let mapStateToProps = (state) => {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage :state.usersPage.currentPage
+        currentPage :state.usersPage.currentPage,
+        isFetching :state.usersPage.isFetching
     }
   
 }
@@ -67,7 +81,8 @@ let mapDispatchToProps = (dispatch) => {
         unFollow: (userId)=>{dispatch(unFollowAC(userId))},
         setUsers: (users)=>{dispatch(setUsersAC(users))},
         setCurrentPage:(pageNumber)=>{dispatch(setCurrentPageAC(pageNumber))},// !!!уточнить почему!!!!
-        setTotalUsersCount:(totalCount)=>{dispatch(setTotalUsersCountAC(totalCount))}
+        setTotalUsersCount:(totalCount)=>{dispatch(setTotalUsersCountAC(totalCount))},
+        toggleIsFetching:(isFetching)=>{dispatch(toggleIsFetchingAC(isFetching))}
     }
 
 }
