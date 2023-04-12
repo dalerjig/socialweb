@@ -1,12 +1,14 @@
 const ADD_POST = "ADD-POST"
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
+const SET_USER_PROFILE='SET_USER_PROFILE'
 
 let initialState = {
     PostData: [
         { id: 0, message: "Hi! How are you?", LikesCount: 13 },
         { id: 1, message: "It is my first post!", LikesCount: 26 },
     ],
-    newPostText: ""
+    newPostText: "",
+    profile:null //для пользователей
 }
 
 // reducer должен как и все наши фун-е компоненты быть иммутабельным
@@ -17,7 +19,8 @@ let initialState = {
 
 const contentReducer = (state = initialState, action) => {//для начальной компиляции используем начальный стейт
 
-    if (action.type === ADD_POST) {
+    switch (action.type){
+    case ADD_POST: {
 
         let newPost = { id: 5, message: state.newPostText, LikesCount: 0 }
         return {
@@ -25,22 +28,23 @@ const contentReducer = (state = initialState, action) => {//для началь�
             PostData: [...state.PostData, newPost],
             newPostText: ''
         }
-        //stateCopy.PostData=[...state.PostData]//делаем глубокую копию массива==объекта
-        //stateCopy.PostData.push(newPost)
-        //stateCopy.newPostText = ''
-        //eturn stateCopy
     }
-    else if (action.type === UPDATE_NEW_POST_TEXT) {
+
+    case UPDATE_NEW_POST_TEXT: {
         let stateCopy = {
             ...state,
             newPostText: action.newText
-        }// копируем только то что нужно
-        //stateCopy.newPostText = action.newText//ибо UpdateNewPostText(newText)
+        }
         return stateCopy;
     }
-    return state;
+    
+    case SET_USER_PROFILE:{
+        
+        return{...state, profile:action.profile}
+    }
+    default: return state;
 }
-
+}
 export default contentReducer;
 
 // export const addPostActionCreator=()=>{
@@ -48,3 +52,4 @@ export default contentReducer;
 //   }
 export const addPostActionCreator = () => ({ type: ADD_POST })
 export const updateNewPostTextActionCreator = (text) => ({ type: UPDATE_NEW_POST_TEXT, newText: text })
+export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile})

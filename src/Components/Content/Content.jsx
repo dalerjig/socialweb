@@ -6,7 +6,7 @@ import ALLPostsContainer from "./ALLPosts/ALLPostsContainer";
 const Content = (props) => {
   return (
     <div className={s.Content}>
-      <Profile />
+      <Profile profile={props.profile} />
       <ALLPostsContainer/>
     </div>
   );

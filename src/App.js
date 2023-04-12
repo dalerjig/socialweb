@@ -2,7 +2,6 @@
 import './App.css';
 import NavBar from './Components/NavBar/NavBar';
 import WeatherColumn from './Components//WeatherColumn/WeatherColumn';
-import Content from './Components/Content/Content';
 import Header from './Components/Header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
@@ -19,7 +18,7 @@ const App = (props) => { //теперь апп-тег <App/>
         <WeatherColumn />
         <Routes>
           <Route path='/masseges/*' element={<DialogsContainer />} />
-          <Route path='/profile' element={<ContentContainer />} />
+          <Route path='/profile/*' element={<ContentContainer />} />
           <Route path='/users' element={<UsersContainer/>} />
         </Routes>
 

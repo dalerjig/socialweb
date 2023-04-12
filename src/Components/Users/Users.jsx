@@ -49,13 +49,11 @@ let Users = (props) => {
           <span>
             <span>
               <div>{u.name}</div>
-              {/* меняем фулнейм на нейм как в апи */}
               <div>{u.status}</div>
             </span>
 
             <span>
               <div>{"u.location.country"}</div>
-              {/* так как в апи нет ключа локейшн */}
               <div>{"u.location.city"}</div>
             </span>
           </span>
