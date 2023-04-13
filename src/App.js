@@ -18,7 +18,15 @@ const App = (props) => { //теперь апп-тег <App/>
         <WeatherColumn />
         <Routes>
           <Route path='/masseges/*' element={<DialogsContainer />} />
-          <Route path='/profile/*' element={<ContentContainer />} />
+
+          {/* :userId - падает в match.params как свойство с ключом равным id по которому кликнули
+          объявим переменную userId в compDidMount и впишем в юрл в get() */}
+          <Route path='/profile/:userId' element={<ContentContainer />} /> 
+
+          {/* чтобы попадать просто на profile */}
+          <Route path='/profile/' element={<ContentContainer />} /> 
+
+
           <Route path='/users' element={<UsersContainer/>} />
         </Routes>
 

@@ -10,6 +10,7 @@ let Users = (props) => {
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
+  
   return (
     <div>
       <div>
@@ -31,7 +32,7 @@ let Users = (props) => {
           <span>
             <div>
 
-              <NavLink to={"/profile" + u.id}>
+              <NavLink to={"/profile/" + u.id}>
                 <img
                   className={s.userPhoto}
                   src={u.photos.small != null ? u.photos.small : userPhoto}
