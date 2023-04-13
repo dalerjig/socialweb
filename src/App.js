@@ -7,13 +7,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
 import UsersContainer from './Components/Users/UsersContainer';
 import ContentContainer from './Components/Content/ContentContainer';
+import HeaderContainer from './Components/Header/HeaderContainer';
 
 const App = (props) => { //теперь апп-тег <App/>
 
   return ( //только 1 div
     <BrowserRouter>
       <div className='MainStylyy'>
-        <Header />
+        <HeaderContainer />
         <NavBar />
         <WeatherColumn />
         <Routes>
