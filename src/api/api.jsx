@@ -5,7 +5,7 @@ import axios from "axios"
 const instance=axios.create({//сущность, чтобы убрать повтор кода
     withCredentials:true,
     baseURL:'https://social-network.samuraijs.com/api/1.0/', //важно что тут URL большие
-    headers:{"API-KEY":"de5234cd-cc5c-4c5e-80ce-65cf4e8fd211"}
+    headers:{"API-KEY":"de5234cd-cc5c-4c5e-80ce-65cf4e8fd211"}//
 })
 
 

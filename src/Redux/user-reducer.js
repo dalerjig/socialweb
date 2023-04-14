@@ -13,7 +13,7 @@ let initialState = {
     pageSize:5,
     currentPage:1, //текущая выбранная страница
     isFetching: true, //получены данные или нет
-    followingInProgress:false//для отсечения многкратных нажати и запросов
+    followingInProgress:[]//для отсечения многкратных нажатий и запросов. будем помещать в массив id пользователя, чтобы disabled был именно на его кнопке
   
 }
 
@@ -67,7 +67,15 @@ const usersReducer = (state = initialState, action) => {
         
         case TOGGLE_IS_FOLLOWING_PROGRESS:{
            
-            return {...state, followingInProgress:action.isFetching}
+            return {
+                ...state, 
+
+                followingInProgress: action.isFetching?//тк массив, делаем глубокое копирование, фильтруем ,пропуская все id кроме той
+                [...state.followingInProgress, action.userId]://если в экш упал тру, то помести userId в массивв стейте (ЧТОБЫ У НЕГО СТАЛА КНОПКА НЕ АКТИВНА)           
+                state.followingInProgress.filter(id=>id!==action.userId)// если экшн вернул фалсе-помести всех кроме того, у кого тру()
+                // ИБО ВСЕ С ФАЛСЕ БУДУТ ИМЕТЬ АКТИВНЫЕ!!!!!!! КНОПКИ  P.S(ФИЛЬТР И ТАК ВЕРНЕТ НОВЫЙ МАССИВ, НАМ НЕ НАДО ДЕЛАТЬ ГЛУБОКОЕ КОПИРОВАНИЕ)
+            }
+                                                                                                
             
         }
 
@@ -85,7 +93,7 @@ export const setUsers = (users) => ({ type: SET_USERS, users })
 export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage })
 export const setTotalUsersCount = (totalUsersCount) => ({ type: SET_TOTAL_USERS_COUNT, count:totalUsersCount })
 export const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching })
-export const toggleIsFollowingProgress = (isFetching) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching })
+export const toggleIsFollowingProgress = (isFetching,userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching,userId })
 
 
 //!!!type: SET_CURRENT_PAGE, currentPage === type: SET_CURRENT_PAGE, currentPage:currentPage
