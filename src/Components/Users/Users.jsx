@@ -2,6 +2,7 @@ import React from "react";
 import userPhoto from "../../assets/images/user.png"; //импорт картинки
 import s from "./Users.module.css";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 let Users = (props) => {
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize); //общее кол-во людей делим на кол-во отображаемых на одной странице, получаем кол-во страниц
@@ -10,7 +11,7 @@ let Users = (props) => {
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
-  
+
   return (
     <div>
       <div>
@@ -31,19 +32,44 @@ let Users = (props) => {
         <div>
           <span>
             <div>
-
               <NavLink to={"/profile/" + u.id}>
                 <img
                   className={s.userPhoto}
                   src={u.photos.small != null ? u.photos.small : userPhoto}
                 />
               </NavLink>
-
             </div>
 
             <div>
-              {u.followed ? (<button onClick={() => {props.unFollow(u.id);}}>Unfollow</button>) 
-                             : (<button onClick={() => {props.follow(u.id);}}>Follow</button>)}
+              {u.followed ? (
+                <button
+                  onClick={() => {
+                    
+                    axios// deleteим в API подписоту на чела
+                      .delete(`https://social-network.samuraijs.com/api/1.0/follow/`+u.id,{withCredentials:true, headers:{"API-KEY":"de5234cd-cc5c-4c5e-80ce-65cf4e8fd211"}})
+                      //в delete with credenTional обязательно 2 объектом как и в get!!!
+                      .then((response) => { if(response.data.resultCode===0) props.unFollow(u.id)});
+                      // в апи resultCode: required(number)(0 if opearation completed successfullt, other numbers - some error occured)
+
+                  }}
+                >
+                  Unfollow
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    
+                    axios// postим в API подписоту на чела
+                      .post(`https://social-network.samuraijs.com/api/1.0/follow/`+u.id,{},{withCredentials:true,headers:{"API-KEY":"de5234cd-cc5c-4c5e-80ce-65cf4e8fd211"}})
+                      // в post with credenTional обязательно 3-им объектом!!!
+                      .then((response) => { if(response.data.resultCode===0) props.follow(u.id)});
+                      // в апи resultCode: required(number)(0 if opearation completed successfullt, other numbers - some error occured) 
+
+                  }}
+                >
+                  Follow
+                </button>
+              )}
             </div>
           </span>
 

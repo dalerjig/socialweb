@@ -16,9 +16,11 @@ class UsersContainer extends React.Component {
     componentDidMount() {
       // сообщаем что компонента уже вмонтирована. более не нужно делать запросы на сервер
       this.props.toggleIsFetching(true)// перед началом запроса для отображения прелоадера
-      axios
+      axios 
         .get(
-          `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+          `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
+          {withCredentials:true}//чтобы сработал follow/unfollow и сервер видел что я подписан не как аноним, а как авторизированный пользователь.
+          // те запрос идет не от аноним браузера, а конкретно от меня как от пользователя api
         )
         //page и count в документации https://social-network.samuraijs.com/api/1.0/
         .then((response) => {
@@ -34,7 +36,8 @@ class UsersContainer extends React.Component {
       this.props.toggleIsFetching(true)
       axios
         .get(
-          `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`
+          `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
+          {withCredentials:true}
         )
         //page и count в документации https://social-network.samuraijs.com/api/1.0/
         .then((response) => {

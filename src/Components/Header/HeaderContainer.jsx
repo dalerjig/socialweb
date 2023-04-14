@@ -22,7 +22,7 @@ class HeaderContainer extends React.Component {
   }
 
   render() {
-    return <Header {...this.props} />;
+    return <Header {...this.props}  />;
   }
 }
 let mapStateToProps=(state)=> {

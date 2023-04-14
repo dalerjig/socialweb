@@ -36,10 +36,11 @@ class ContentContainer extends React.Component {
         });
 
   }
- 
+  
   render() {
     return (//ведет на /profile/u.id из-за навлинка
       <div className={s.Content}>
+       
           <Content {...this.props} profile={this.props.profile} />  
       </div>
     );
