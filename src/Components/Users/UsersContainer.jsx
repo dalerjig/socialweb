@@ -6,6 +6,7 @@ import React from "react";
 import axios from "axios"; 
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import { usersAPI } from "../../api/api";
 
 
 
@@ -14,19 +15,13 @@ import Preloader from "../common/Preloader/Preloader";
 class UsersContainer extends React.Component {
   
     componentDidMount() {
+      
       // сообщаем что компонента уже вмонтирована. более не нужно делать запросы на сервер
       this.props.toggleIsFetching(true)// перед началом запроса для отображения прелоадера
-      axios 
-        .get(
-          `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-          {withCredentials:true}//чтобы сработал follow/unfollow и сервер видел что я подписан не как аноним, а как авторизированный пользователь.
-          // те запрос идет не от аноним браузера, а конкретно от меня как от пользователя api
-        )
-        //page и count в документации https://social-network.samuraijs.com/api/1.0/
-        .then((response) => {
+      usersAPI.getUsers(this.props.currentPage,this.props.pageSize).then((data) => {//в промисе уже дата сидит
           this.props.toggleIsFetching(false)//тут уже пришел ответ, передаем фалсе, чтобы прелоадер больше не крутился
-          this.props.setUsers(response.data.items);
-          this.props.setTotalUsersCount(response.data.totalCount); //получаем общее кол-во людей из апи
+          this.props.setUsers(data.items);
+          this.props.setTotalUsersCount(data.totalCount); //получаем общее кол-во людей из апи
         });
     }
     onPageChanged = (pageNumber) => {
@@ -34,15 +29,10 @@ class UsersContainer extends React.Component {
       this.props.setCurrentPage(pageNumber);
       
       this.props.toggleIsFetching(true)
-      axios
-        .get(
-          `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
-          {withCredentials:true}
-        )
-        //page и count в документации https://social-network.samuraijs.com/api/1.0/
-        .then((response) => {
+      usersAPI.getUsers(pageNumber,this.props.pageSize)
+        .then((data) => {
           this.props.toggleIsFetching(false)
-          this.props.setUsers(response.data.items);
+          this.props.setUsers(data.items);
         });
     };
    debugger;
