@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 let Users = (props) => {
+
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize); //общее кол-во людей делим на кол-во отображаемых на одной странице, получаем кол-во страниц
   //ceil -округление вверх, чтобы на последней странице тоже выводислся остаток пользователей
   let pages = [];
@@ -43,28 +44,37 @@ let Users = (props) => {
             <div>
               {u.followed ? (
                 <button
-                  onClick={() => {
-                    
+                disabled={props.followingInProgress}//если тру, выруби конпку
+                 onClick={() => {
+                  console.log(props.followingInProgress)
+                    props.toggleIsFollowingProgress(true)//я нажал, установи true
                     axios// deleteим в API подписоту на чела
                       .delete(`https://social-network.samuraijs.com/api/1.0/follow/`+u.id,{withCredentials:true, headers:{"API-KEY":"de5234cd-cc5c-4c5e-80ce-65cf4e8fd211"}})
                       //в delete with credenTional обязательно 2 объектом как и в get!!!
-                      .then((response) => { if(response.data.resultCode===0) props.unFollow(u.id)});
+                      .then((response) => { if(response.data.resultCode===0) {props.unFollow(u.id)}
+                      props.toggleIsFollowingProgress(false)});// я подписался, установи фалсе
                       // в апи resultCode: required(number)(0 if opearation completed successfullt, other numbers - some error occured)
+                      
 
-                  }}
+                  }
+                  
+                }
                 >
                   Unfollow
                 </button>
               ) : (
                 <button
+                disabled={props.followingInProgress}
                   onClick={() => {
                     
+                    props.toggleIsFollowingProgress(true)
                     axios// postим в API подписоту на чела
                       .post(`https://social-network.samuraijs.com/api/1.0/follow/`+u.id,{},{withCredentials:true,headers:{"API-KEY":"de5234cd-cc5c-4c5e-80ce-65cf4e8fd211"}})
                       // в post with credenTional обязательно 3-им объектом!!!
-                      .then((response) => { if(response.data.resultCode===0) props.follow(u.id)});
+                      .then((response) => { if(response.data.resultCode===0){ props.follow(u.id)} 
+                      props.toggleIsFollowingProgress(false)});
                       // в апи resultCode: required(number)(0 if opearation completed successfullt, other numbers - some error occured) 
-
+                      
                   }}
                 >
                   Follow

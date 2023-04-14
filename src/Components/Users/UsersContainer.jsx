@@ -1,12 +1,13 @@
 
 import { connect } from "react-redux";
-import { follow, setUsers,setCurrentPage,setTotalUsersCount, toggleIsFetching } from "../../Redux/user-reducer";
+import { follow, setUsers,setCurrentPage,setTotalUsersCount, toggleIsFetching,toggleIsFollowingProgress } from "../../Redux/user-reducer";
 import { unFollow } from "../../Redux/user-reducer";
 import React from "react";
 import axios from "axios"; 
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import { usersAPI } from "../../api/api";
+
 
 
 
@@ -35,21 +36,25 @@ class UsersContainer extends React.Component {
           this.props.setUsers(data.items);
         });
     };
-   debugger;
+ 
     render() {
       // обернем <Users/> в <></>
       return <>
       
         {this.props.isFetching ? <Preloader/> : null }
         
-        <Users
+        <Users 
           totalUsersCount={this.props.totalUsersCount}
           pageSize={this.props.pageSize}
           currentPage={this.props.currentPage}
           onPageChanged={this.onPageChanged}// тут без пропсов, ибо метод лежит в самом классе!
           users={this.props.users}
           follow={this.props.follow}
-          unFollow={this.props.unFollow}//а можно было бы {...this.props} вместо всего
+          unFollow={this.props.unFollow}
+          toggleIsFetching={this.props.toggleIsFetching}
+          followingInProgress={this.props.followingInProgress}
+          toggleIsFollowingProgress={this.props.toggleIsFollowingProgress}
+          
         />
       </>
     }
@@ -58,15 +63,25 @@ class UsersContainer extends React.Component {
 
 
 let mapStateToProps = (state) => {
+
     return {
         users: state.usersPage.users,
         pageSize:state.usersPage.pageSize,
         totalUsersCount:state.usersPage.totalUsersCount,
         currentPage:state.usersPage.currentPage,
-        isFetching:state.usersPage.isFetching
+        isFetching:state.usersPage.isFetching,
+        followingInProgress:state.usersPage.followingInProgress,
     }
   
 }
+
+export default connect(mapStateToProps, {
+  follow,
+  unFollow,
+  setUsers,
+  setCurrentPage,
+  setTotalUsersCount,
+  toggleIsFetching,toggleIsFollowingProgress})(UsersContainer);
 
 // let mapDispatchToProps = (dispatch) => {
    
@@ -87,11 +102,5 @@ let mapStateToProps = (state) => {
 //то connect оборачивает ваши AC в функцию-обертку () => store.dispatch(AC) и передаёт в props компонента.
 
 
-UsersContainer = connect(mapStateToProps, {
-  follow,
-  unFollow,
-  setUsers,
-  setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching})(UsersContainer);
-export default UsersContainer
+
+
