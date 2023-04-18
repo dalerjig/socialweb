@@ -28,7 +28,7 @@ const Dialogs = (props) => {
     props.onSendMessageClick()
   };
   
-  if(props.isAuth===false) return <Navigate to={'/login'}/>// редирект если не залогинен
+  //if(props.isAuth===false) return <Navigate to={'/login'}/>// редирект если не залогинен
   
   return (
     <div className={s.Dialogs}>

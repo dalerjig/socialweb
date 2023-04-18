@@ -47,7 +47,6 @@ let mapStateToProps=(state)=>({
 
 
 let WithUrlDataComponent=withRouter(ContentContainer)
-//это HOC, которого больше нет в реакт. Нужны хуки, но хуки нельзя в классах.
 
 export default connect(mapStateToProps,{getUserProfile:getUserProfileThunk})(WithUrlDataComponent)
 
