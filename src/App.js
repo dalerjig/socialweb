@@ -2,12 +2,12 @@
 import './App.css';
 import NavBar from './Components/NavBar/NavBar';
 import WeatherColumn from './Components//WeatherColumn/WeatherColumn';
-import Header from './Components/Header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
 import UsersContainer from './Components/Users/UsersContainer';
 import ContentContainer from './Components/Content/ContentContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
+import LoginPage from './Components/Login/Login';//тк по дефолту експорт, можем тут дать другое называние
 
 const App = (props) => { //теперь апп-тег <App/>
 
@@ -29,6 +29,8 @@ const App = (props) => { //теперь апп-тег <App/>
 
 
           <Route path='/users' element={<UsersContainer/>} />
+
+          <Route path='/login' element={<LoginPage/>} />
         </Routes>
 
 

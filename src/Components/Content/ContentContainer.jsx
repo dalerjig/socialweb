@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 import s from "./Content.module.css";
 import React from "react";
-import { getUserProfileThunk, getUsersProfileThunk, setUserProfile } from './../../Redux/content-reducer';
+import { getUserProfileThunk} from './../../Redux/content-reducer';
 import Content from "./Content";
-import { useParams} from "react-router-dom";
-import { usersAPI } from "../../api/api";
+import { Navigate, useParams} from "react-router-dom";
+
 
 
 //создаем свою функцию withRouter используя хук. в сеья принимает класс ContentContainer
@@ -28,6 +28,7 @@ class ContentContainer extends React.Component {
   }
   
   render() {
+    if(this.props.isAuth===false) return <Navigate to={'/login'}/>
     return (//ведет на /profile/u.id из-за навлинка
       <div className={s.Content}>
        
@@ -38,7 +39,7 @@ class ContentContainer extends React.Component {
 }
 
 let mapStateToProps=(state)=>({
-  
+  isAuth:state.auth.isAuth,
   profile:state.profilePage.profile //узнали через ssstate.getState()
 })
 //эту функцию есть смысл писать последней, ибо до мы получаем в стейт все нужное, 

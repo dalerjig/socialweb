@@ -10,7 +10,8 @@ import { connect } from "react-redux";
 let mapStateToProps=(state)=> {
   return {
     dialogPage: state.dialogPage,
-    newMessageBody:state.newMessageBody
+    newMessageBody:state.newMessageBody,
+    isAuth:state.auth.isAuth
   };
 }
 let mapDispatchToProps=(dispatch)=>{ //диспатч вызывается внутри логики connect
