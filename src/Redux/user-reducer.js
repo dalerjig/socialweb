@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api"
+
 const FOLLOW = "FOLLOW"
 const UNFOLLOW = "UNFOLLOW"
 const SET_USERS='SET_USERS'
@@ -87,16 +89,58 @@ const usersReducer = (state = initialState, action) => {
 
 export default usersReducer;
 
-export const follow = (userId) => ({ type: FOLLOW, userId })
-export const unFollow = (userId) => ({ type: UNFOLLOW, userId })
+export const followSuccess = (userId) => ({ type: FOLLOW, userId })
+export const unFollowSuccess = (userId) => ({ type: UNFOLLOW, userId })
 export const setUsers = (users) => ({ type: SET_USERS, users })
 export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage })
 export const setTotalUsersCount = (totalUsersCount) => ({ type: SET_TOTAL_USERS_COUNT, count:totalUsersCount })
 export const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching })
 export const toggleIsFollowingProgress = (isFetching,userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching,userId })
+//!!!type: SET_CURRENT_PAGE, currentPage === type: SET_CURRENT_PAGE, currentPage:currentPag
+
+export const getUsersThunkCreator=(currentPage,pageSize)=>{
+    return (dispatch)=> {
+    dispatch(toggleIsFetching(true))// перед началом запроса для отображения прелоадера
+    usersAPI.getUsers(currentPage,pageSize).then((data) => {//в промисе уже дата сидит
+        dispatch(setCurrentPage(currentPage))
+        dispatch(toggleIsFetching(false))//тут уже пришел ответ, передаем фалсе, чтобы прелоадер больше не крутился
+        dispatch(setUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount)); //получаем общее кол-во людей из апи
+      })};
+}
+//убираем this потому что все в данном файле, и по принципу замыканя, передаем currentPage и pageSize как рагументы замыкающией фун-ии
+
+export const unFollowThunk=(userId)=>{
+    return (dispatch)=>{
+        dispatch(toggleIsFollowingProgress(true, userId)); //я нажал, установи true//u.id меняем на просто userId
+                    usersAPI.unFollow(userId).then((response) => {
+                      if (response.data.resultCode === 0) {
+                        // в апи resultCode: required(number)(0 if opearation completed successfullt, other numbers - some error occured)
+                        dispatch(unFollowSuccess(userId));
+                      }
+                      dispatch(toggleIsFollowingProgress(false, userId));
+                    });
+
+    }
+}
+
+export const followThunk=(userId)=>{
+    return (dispatch)=>{
+        dispatch(toggleIsFollowingProgress(true, userId));
+        usersAPI.follow(userId).then((response) => {//запрос не является экшкератором
+          if (response.data.resultCode === 0) {
+            dispatch(followSuccess(userId));
+          }
+          dispatch(toggleIsFollowingProgress(false, userId));// я подписался, установи фалсе для дезактивации кнопки
+        });
+        
+      }}
+        
+    
 
 
-//!!!type: SET_CURRENT_PAGE, currentPage === type: SET_CURRENT_PAGE, currentPage:currentPage
+//убираем this потому что все в данном файле, и по принципу замыканя, передаем currentPage и pageSize как рагументы замыкающией фун-ии
+
 
 
 

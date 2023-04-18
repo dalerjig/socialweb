@@ -15,7 +15,7 @@ let rootReducer = combineReducers({
 
 let store = configureStore({reducer:rootReducer})
 export default store;
-//миддлвар подключать НЕ НУЖНО, он идёт вместе с конфигурстор
+//applyMiddleWare() подключать НЕ НУЖНО, он идёт вместе с конфигурстор
 
 // let sum=(a=1,b=0)=>{
 //     return a+b

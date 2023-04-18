@@ -1,3 +1,5 @@
+import { authAPI } from "../api/api";
+
 const SET_USER_DATA = "SET_USER_DATA"
 
 
@@ -32,3 +34,17 @@ export default authReducer;
 
 export const setAuthUserData = (userId, email,login) => ({ type: SET_USER_DATA, data:{userId, email,login}})
 // data={userId:x,email:y,login:z} можно и так передавать в экшнкреатор
+
+export const getAuthUserDataThunk = () => { 
+    return (dispatch)=>{    
+    authAPI.me()
+    .then((response) => {
+      if(response.data.resultCode===0){//resultCode=0 в докмуентации ==залогинен
+        let{id,login,email}=response.data.data// тут id(не userId)ибо в дата на апи именно id
+          dispatch(setAuthUserData(id,login,email))// первая data-в то что упаковывает аксиос, вторая data-разраб бэка сделал на апи
+      }
+    });
+    }
+}
+
+//ThunkActionCreator

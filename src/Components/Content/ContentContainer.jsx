@@ -1,11 +1,10 @@
 import { connect } from "react-redux";
 import s from "./Content.module.css";
-import axios from "axios";
 import React from "react";
-import { setUserProfile } from './../../Redux/content-reducer';
+import { getUserProfileThunk, getUsersProfileThunk, setUserProfile } from './../../Redux/content-reducer';
 import Content from "./Content";
-import Profile from "./Profile/Profile";
 import { useParams} from "react-router-dom";
+import { usersAPI } from "../../api/api";
 
 
 //создаем свою функцию withRouter используя хук. в сеья принимает класс ContentContainer
@@ -25,16 +24,7 @@ class ContentContainer extends React.Component {
   componentDidMount(){
    let userId=this.props.match.params.userId// из params, которые появляются благодаря useParams
    if(!userId) userId=2 // пока тут грузится димыч если не выбран другой профиль
-    axios
-        .get(
-          `https://social-network.samuraijs.com/api/1.0/profile/`+userId
-        )
-        .then((response) => {
-          //debugger //лучше тут дебажить чтобы посмотреть что приходит с сервера. С сервера приходит http-обеъкт+информация о разметке
-          this.props.setUserProfile(response.data);// объект сидит в дата,через дебаг увидели
-         
-        });
-
+   this.props.getUserProfile(userId)
   }
   
   render() {
@@ -58,5 +48,5 @@ let mapStateToProps=(state)=>({
 let WithUrlDataComponent=withRouter(ContentContainer)
 //это HOC, которого больше нет в реакт. Нужны хуки, но хуки нельзя в классах.
 
-export default connect(mapStateToProps,{setUserProfile})(WithUrlDataComponent)
+export default connect(mapStateToProps,{getUserProfile:getUserProfileThunk})(WithUrlDataComponent)
 
