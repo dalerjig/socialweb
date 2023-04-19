@@ -1,3 +1,4 @@
+import { compose } from "redux";
 import {
   sendMessageActionCreator,
   updateNewMessageBodyActionCreator,
@@ -5,6 +6,7 @@ import {
 import { withAuthRedirect } from "../HOC/withAuthRedirect";
 import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
+import React from "react";
 
 
 
@@ -23,7 +25,15 @@ let mapDispatchToProps=(dispatch)=>{ //диспатч вызывается вн�
 }
 
 
-let AuthRedirectComponent=withAuthRedirect(Dialogs)
-const DialogsContainer=connect(mapStateToProps,mapDispatchToProps)(AuthRedirectComponent)//connect умеет работать со стейтом и стором, позволяя мне не работать со store
+//let AuthRedirectComponent=withAuthRedirect(Dialogs)
+//const DialogsContainer=connect(mapStateToProps,mapDispatchToProps)(AuthRedirectComponent)//connect умеет работать со стейтом и стором, позволяя мне не работать со store
+//connect - возвращает хок.
+//export default DialogsContainer;
 
-export default DialogsContainer;
+//при нескольких хоках можно так:
+
+export default compose(
+  withAuthRedirect,//можно удалять из цепи рендера без последствий 
+  connect(mapStateToProps,mapDispatchToProps)
+  
+)(Dialogs)
