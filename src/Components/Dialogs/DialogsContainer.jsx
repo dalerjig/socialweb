@@ -6,7 +6,7 @@ import {
 import { withAuthRedirect } from "../HOC/withAuthRedirect";
 import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
-import React from "react";
+
 
 
 

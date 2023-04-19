@@ -1,6 +1,6 @@
 import Preloader from "../../common/Preloader/Preloader";
-import s from "./Profile.module.css";
 import React from "react";
+import ProfileStatus from './ProfileStatus'
 
 const Profile = (props) => {
   if(!props.profile){//либо null либо undefined
@@ -12,6 +12,8 @@ const Profile = (props) => {
      тутутутутут мое будет
       <div>
          <img src={props.profile.photos.large}/> 
+         
+         <ProfileStatus status={'statusAlpha'}/>
       </div>
     </div>
   );
