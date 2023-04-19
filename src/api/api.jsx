@@ -6,6 +6,13 @@ import axios from "axios";
 // в .post with credenTional обязательно 3-им объектом!!!(второй пусто {})
 //create сам сделаем его третьим а не вторым!
 
+
+// users?page=${currentPage}&count=${pageSize} это QuerryParametrs и цепляются через знак вопроса
+// 'profile/status/'+userId а это URI Parameters(см в доку АПИ)
+
+//get, delete могут только брать инфу с сервера отправляя url
+//post и put могу отправить на серв объект
+
 const instance = axios.create({
   //сущность, чтобы убрать повтор кода
   withCredentials: true, 
@@ -39,7 +46,8 @@ export const usersAPI = {
 
   },
   getProfile(userId){
-    return instance.get( `profile/`+userId )
+    console.warn("Obsolete method.Please use profileAPI")// ибо перенесли в profileAPI, чтобы сразу не искать во всех файлах где обращаемся к usersAPI.getProfile
+    return profileAPI.getProfile(userId)
   }
 };
 
@@ -50,3 +58,22 @@ export const authAPI={
         
    
 }
+
+
+export const profileAPI = {
+
+  getProfile(userId){
+    return instance.get( `profile/`+userId )
+  },
+
+  getStatus(userId){
+    return instance.get('profile/status/'+userId)// получи статус
+  },
+
+  //Properties : status: required(string - maxLength: 300) в доке в put
+  //в put вторым параметром идет объект, где первый status-наш аргумент, второй из серва
+  updateStatus(status){
+    return instance.put('profile/status/',{status:status})//put-помести статус
+  }
+
+};
