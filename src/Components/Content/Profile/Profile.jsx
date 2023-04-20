@@ -9,7 +9,6 @@ const Profile = (props) => {
   
   return (
     <div >
-     тутутутутут мое будет
       <div>
          <img src={props.profile.photos.large}/> 
          

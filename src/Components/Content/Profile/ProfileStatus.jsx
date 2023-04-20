@@ -38,13 +38,30 @@ class ProfileStatus extends React.Component {
     })
   }
 
+   componentDidUpdate(prevProps,prevState){//обновляем комп при изменении локального стейта
+    //let a=this.state // в дебаге увидим, что после дабллкилка на стейт едит мод тру!
+
+    //если только превПросп(пустой) не равен статусу из пропсов, то установи его в наш локальный стейт и отправь в инпут!
+    //иначе зациклится(без иф)
+
+    //didUpdate нужен потому чтов didMount в ContentContainer делает два запроса this.props.getUserProfile(userId) и this.props.getStatus(userId)
+    // и пока компонента вмонитрована, она может еще раз сделать запрос ноне обновиться
+   
+    if(prevProps.status!==this.props.status){
+        this.setState({
+          status:this.props.status
+        })
+    }
+
+   }
+
   render() {
     return (
       <div>
         {!this.state.editMode && ( // если не тру, то просто спан покажи/тут будет стейт из блл
           <div>
             <span onDoubleClick={this.activateEditMode}>
-              {this.props.status}
+              {this.props.status || 'пустой статус'}
             </span>
           </div>
         )}
