@@ -28,9 +28,9 @@ const App = (props) => { //теперь апп-тег <App/>
           <Route path='/profile/' element={<ContentContainer />} /> 
 
 
-          <Route path='/users' element={<UsersContainer/>} />
+          <Route path='/users/' element={<UsersContainer/>} />
 
-          <Route path='/login' element={<LoginPage/>} />
+          <Route path='/login/' element={<LoginPage/>} />
         </Routes>
 
 
