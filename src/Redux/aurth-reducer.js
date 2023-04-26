@@ -7,7 +7,7 @@ let initialState = {// берем из апи /auth
     userId: null,
     email: null,
     login: null,
-    isAuth:false, //
+    isAuth:null, //поствил нул, чтобы при обновлении по дефолту не кидало на редирект 
     isFetching: false
 
 }
