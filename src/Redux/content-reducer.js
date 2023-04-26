@@ -1,7 +1,7 @@
 import { profileAPI, usersAPI } from "../api/api"
 
 const ADD_POST = "ADD-POST"
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
+//const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
 const SET_STATUS = 'SET_STATUS'
 
@@ -10,7 +10,7 @@ let initialState = {
         { id: 0, message: "Hi! How are you?", LikesCount: 13 },
         { id: 1, message: "It is my first post!", LikesCount: 26 },
     ],
-    newPostText: "",
+   // newPostText: "",
     profile: null, //для пользователей
     status: ""
 }
@@ -26,7 +26,9 @@ const contentReducer = (state = initialState, action) => {//для началь�
     switch (action.type) {
         case ADD_POST: {
 
-            let newPost = { id: 5, message: state.newPostText, LikesCount: 0 }
+            let newPost = { id: 5, 
+                message: action.newPostText, //ибо теперь этот текст не из нашего стейта, а из экшн, а экш берет из редаксФорм Стейта
+                LikesCount: 0 }
             return {
                 ...state,
                 PostData: [...state.PostData, newPost],
@@ -34,13 +36,13 @@ const contentReducer = (state = initialState, action) => {//для началь�
             }
         }
 
-        case UPDATE_NEW_POST_TEXT: {
-            let stateCopy = {
-                ...state,
-                newPostText: action.newText
-            }
-            return stateCopy;
-        }
+        // case UPDATE_NEW_POST_TEXT: {
+        //     let stateCopy = {
+        //         ...state,
+        //         newPostText: action.newText
+        //     }
+        //     return stateCopy;
+        // }
 
         case SET_USER_PROFILE: {
 
@@ -59,8 +61,8 @@ export default contentReducer;
 // export const addPostActionCreator=()=>{
 //     return {type:ADD_POST}
 //   }
-export const addPostActionCreator = () => ({ type: ADD_POST })
-export const updateNewPostTextActionCreator = (text) => ({ type: UPDATE_NEW_POST_TEXT, newText: text })
+export const addPostActionCreator = (newPostText) => ({ type: ADD_POST,newPostText })
+//export const updateNewPostTextActionCreator = (text) => ({ type: UPDATE_NEW_POST_TEXT, newText: text })
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 export const setStatus = (status) => ({ type: SET_STATUS, status })
 

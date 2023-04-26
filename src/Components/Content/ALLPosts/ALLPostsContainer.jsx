@@ -17,12 +17,13 @@ let mapStateToProps=(state)=> {
 }
 
 let mapDispatchToProps=(dispatch)=>{ 
+  
   return{
-    updateNewPostText:(text)=>{
-      let action=updateNewPostTextActionCreator(text)
-      dispatch(action)
-    },
-    addPost:()=>{dispatch(addPostActionCreator())}
+    // updateNewPostText:(text)=>{
+    //   let action=updateNewPostTextActionCreator(text)
+    //   dispatch(action)
+    // },
+    addPost:(newPostText)=>{dispatch(addPostActionCreator(newPostText))}
   }
 }
 const ALLPostsContainer=connect(mapStateToProps,mapDispatchToProps)(ALLPosts)//connect умеет работать со стейтом и стором, позволяя мне не работать со store
