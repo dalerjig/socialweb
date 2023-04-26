@@ -1,8 +1,7 @@
 // import s from "./ALLPosts.module.css";
 
 import {
-  addPostActionCreator,
-  updateNewPostTextActionCreator,
+  addPostActionCreator
 } from "./../../../Redux/content-reducer";
 import ALLPosts from "./ALLPosts";
 import { connect } from "react-redux";

@@ -3,8 +3,10 @@
 import { Field, Form, reduxForm } from "redux-form";
 import Post from "./Post/Post";
 import React from "react";
+import {  maxLengthCreator, required } from "../../../utils/validators/validators";
+import { Textarea } from "../../common/FormsControls/FormsControls";
 
-
+const maxLength10=maxLengthCreator(10)//вне компоненты, иначе создание функции будет постоянным из за переренжера
 const ALLPosts = (props) => {
   
   let PostElement = props.posts.map((p) => (
@@ -39,12 +41,7 @@ let AddNewPostForm=(props)=>{
   
   return <Form onSubmit={props.handleSubmit}>
    
-   <Field component='textarea' name="newPostText"/>  {/* в// name обязтельно newPostText!! */}
-  {/* <textarea
-    onChange={onPostChange}
-    ref={newPostElem}
-    value={props.newPostText}
-  /> */}
+   <Field component={Textarea} name="newPostText" validate={[required,maxLength10]}/>  
   <button>New Post</button>
   </Form>
 }
