@@ -1,4 +1,4 @@
-const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
+//const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
 const SEND_MESSAGE = "SEND-MESSAGE"
 
 let initialState = {
@@ -14,8 +14,8 @@ let initialState = {
         { id: 2, message: "FROOOGS" },
         { id: 3, message: "WHOOOAAAA" },
         { id: 4, message: "4:20" },
-    ],
-    newMessageBody: ''
+    ]
+   // newMessageBody: '' из за формы больше не надо
 }
 
 const dialogsReducer = (state = initialState, action) => {
@@ -23,21 +23,21 @@ const dialogsReducer = (state = initialState, action) => {
     //let stateCopy;// чтобы избавиться от {}
     //избавимся от переменной copy
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_BODY:
-            //stateCopy = 
-            return{
-                ...state,
-                newMessageBody: action.body
-            }
-            //stateCopy.newMessageBody = action.body//получаем сообщение в стейт
-            //return stateCopy
+        // case UPDATE_NEW_MESSAGE_BODY:
+        //     //stateCopy = 
+        //     return{
+        //         ...state,
+        //         newMessageBody: action.body
+        //     }
+        //     //stateCopy.newMessageBody = action.body//получаем сообщение в стейт
+        //     //return stateCopy
 
         case SEND_MESSAGE:
-            let body = state.newMessageBody
+            let body = action.newMessageBody//теперь берем из экшна
             //stateCopy = 
             return{
                 ...state,
-                newMessageBody: '',
+                //newMessageBody: '',
                 MessageData: [...state.MessageData, { id: 5, message: body }]//вместо push
             }
             //stateCopy.MessageData = [...state.MessageData]
@@ -53,6 +53,7 @@ const dialogsReducer = (state = initialState, action) => {
 
 export default dialogsReducer;
 
-export const sendMessageActionCreator = () => ({ type: SEND_MESSAGE })
-export const updateNewMessageBodyActionCreator = (body) => ({ type: UPDATE_NEW_MESSAGE_BODY, body: body })
+export const sendMessageActionCreator = (newMessageBody) => ({ type: SEND_MESSAGE,newMessageBody })
+//export const updateNewMessageBodyActionCreator = (body) => ({ type: UPDATE_NEW_MESSAGE_BODY, body: body })
+//теперьт занулением занимается редакс форм
 
