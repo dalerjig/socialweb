@@ -1,10 +1,12 @@
 import s from "./Dialogs.module.css";
 import MessagesItem from "./MessageItem/MessageItem";
 import DialogItem from "./DialogItem/DialogItem";
-import { Navigate } from "react-router-dom";
 import { Field, Form, reduxForm } from "redux-form";
+import { Textarea } from "../common/FormsControls/FormsControls";
+import { maxLengthCreator, required } from "../../utils/validators/validators";
+import { Navigate } from "react-router-dom";
 
-
+const maxLength50=maxLengthCreator(50)
 const Dialogs = (props) => {
   //локальный стейт для страницы диалогов
   // скорее всего из за локального стейта, отрисовка дублируется???
@@ -16,17 +18,7 @@ const Dialogs = (props) => {
     <MessagesItem message={m.message} />
   ));
 
-  //let newMessageBody = props.newMessageBody;
-
-  // let updateNewMessageBody = (e) => {
-  //   let body = e.target.value; //то что введено
-  //   props.updateNewMessage(body);
-  // };
-  //теперь каждый символ не нужно обрабатывать, это делает редуксФорм
-
-  // let onSendMessageClick = () => {
-  //   props.onSendMessageClick();
-  // };
+  
 
   let addNewMessage = (data) => {
     //console.log(data.newMessageBody)
@@ -34,7 +26,7 @@ const Dialogs = (props) => {
     props.onSendMessageClick(data.newMessageBody);
   };
 
-  //if(props.isAuth===false) return <Navigate to={'/login'}/>// редирект если не залогинен
+  if(props.isAuth===false) return <Navigate to={'/login'}/>// редирект если не залогинен
 
   return (
     <div className={s.Dialogs}>
@@ -51,8 +43,7 @@ const AddMessageForm = (props) => {
   return (
     <Form onSubmit={props.handleSubmit}>
       <div>
-        <Field component='textarea' name='newMessageBody' placeholder="Пиши сюда!"/>
-        {/* <textarea value={state.newMessageBody} onChange={updateNewMessageBody} placeholder="Пиши сюда!"></textarea> */}
+        <Field component={Textarea} validate={[required,maxLength50]} name='newMessageBody' placeholder="Пиши сюда!"/>
       </div>
       <div>
         <button>Отправить</button>

@@ -11,15 +11,15 @@ export const Textarea = ({ input, meta, ...props }) => {//чтобы фиелд 
     //и все что отсекли-ньюпосттекст
     //именно в инпуте лежат все необходимые методы работы с веденными данными
 
-    
+    const hasError=meta.touched&& meta.error
     return (
-        <div className={s.formControl + " " + s.error}>
+        <div className={s.formControl + " " +(hasError? s.error:"") }>
             <div>
                 <textarea {...input} {...props} />
                 </div>
 
             <div>
-                {meta.touched&& meta.error&&<span>неверно</span>}
+                {hasError&&<span>{meta.error}</span>}
                 </div>
         </div>
     )

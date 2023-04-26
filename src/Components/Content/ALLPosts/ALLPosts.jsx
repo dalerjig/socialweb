@@ -38,7 +38,7 @@ const ALLPosts = (props) => {
 };
 
 let AddNewPostForm=(props)=>{
-  
+
   return <Form onSubmit={props.handleSubmit}>
    
    <Field component={Textarea} name="newPostText" validate={[required,maxLength10]}/>  

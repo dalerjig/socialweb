@@ -6,8 +6,9 @@ export const required=(value)=>{// обязательное поле
 
 // теперь в филд можно передать maxLengthCreator(n)
 // чтобы при изменении длины(разработчиком) не менять кучу кода.
-export const maxLengthCreator=(maxLength)=>(value)=>{// обязательное поле
-    if (value.length>maxLength ) return 'Max length is'+{maxLength}
+export const maxLengthCreator=(maxLength)=>(value)=>{
+    
+    if (value.length>maxLength ) return `Max length is ${maxLength}`
     return undefined
 }
 
