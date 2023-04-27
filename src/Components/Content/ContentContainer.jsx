@@ -23,7 +23,7 @@ class ContentContainer extends React.Component {
   //постоянных запросов, сообщаем компоненте-остановись!
   componentDidMount(){
    let userId=this.props.match.params.userId// из params, которые появляются благодаря useParams
-   if(!userId) userId=2 // пока тут грузится димыч если не выбран другой профиль
+   if(!userId) {userId=this.props.authorizedUserId}
    this.props.getUserProfile(userId)
 
    this.props.getStatus(userId)
@@ -44,7 +44,8 @@ class ContentContainer extends React.Component {
 let mapStateToProps=(state)=>({
   isAuth:state.auth.isAuth,
   profile:state.profilePage.profile, //узнали через ssstate.getState()
-  status:state.profilePage.status
+  status:state.profilePage.status,
+  authorizedUserId:state.auth.userId,
 })
 //эту функцию есть смысл писать последней, ибо до мы получаем в стейт все нужное, 
 //и прокидываем по пропсам далее для отрисовки

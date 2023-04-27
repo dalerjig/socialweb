@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import { authAPI } from "../api/api";
 
 
@@ -54,6 +55,12 @@ export const loginThunk = (email,password,rememberMe) => {
     .then((response) => {
       if(response.data.resultCode===0){
         dispatch(getAuthUserDataThunk())//после того как залогинился, верни инфу me
+      } else 
+      {
+        let message=response.data.messages.length>0 ? response.data.messages[0]: "some error"
+        let action=stopSubmit('login',{_error:message})//прекрати сабмитить форму Логин
+        // _error -общая ошибка для всей формы. вместо него можно написать email/remeberMe/password
+        dispatch(action)
       }
     });
     }
