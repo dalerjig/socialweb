@@ -1,4 +1,6 @@
 import { Field, Form, reduxForm } from "redux-form";
+import { Input } from "../common/FormsControls/FormsControls";
+import { required } from "../../utils/validators/validators";
 
 //form сама умеет сабмитить
 // в доке видим что инпуты надо поменять на Field, который имеет три типа:
@@ -16,15 +18,15 @@ const LoginForm = (props) => {
    // handleSubmit(управляй отправкой)-коллбэк из пропсов, предоставляемый reduxForm
     <Form onSubmit={props.handleSubmit}>
       <div>
-        <Field placeholder={"Login"} name={'login'} component={'input'} />
+        <Field placeholder={"Login"} name={'login'} component={Input} validate={[required]} />
       </div>
 
       <div>
-        <Field placeholder={"Password"} name={'password'} component={'input'} />
+        <Field placeholder={"Password"} name={'password'} component={Input} validate={[required]} />
       </div>
 
       <div>
-        <Field type={"checkbox"} name={'rememberMe'} component={'input'} /> remember me
+        <Field type={"checkbox"} name={'rememberMe'} component={Input} /> remember me
       </div>
 
       <div>
