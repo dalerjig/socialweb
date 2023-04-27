@@ -1,6 +1,9 @@
 import { Field, Form, reduxForm } from "redux-form";
 import { Input } from "../common/FormsControls/FormsControls";
 import { required } from "../../utils/validators/validators";
+import { loginThunk } from "../../Redux/aurth-reducer";
+import { connect } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 //form сама умеет сабмитить
 // в доке видим что инпуты надо поменять на Field, который имеет три типа:
@@ -12,29 +15,39 @@ import { required } from "../../utils/validators/validators";
 //редаксФорм библиотека(в будущем формик) делает все за нас, нам надо создать только форму
 //и в форме в пропсах есть коллбэк(КОТОРЫЙ ПРИХОДИТ ИЗ КОНТЕЙНЕРНОЙ) хандлсабмит, который организует flux при вводе
 const LoginForm = (props) => {
-    console.log('rer')
+  console.log("rer");
   //этот дебаггер позволит нам увидеть, какие коллбэки в пропсы передал reduxForm хок
   return (
-   // handleSubmit(управляй отправкой)-коллбэк из пропсов, предоставляемый reduxForm
+    // handleSubmit(управляй отправкой)-коллбэк из пропсов, предоставляемый reduxForm
     <Form onSubmit={props.handleSubmit}>
       <div>
-        <Field placeholder={"Login"} name={'login'} component={Input} validate={[required]} />
+        <Field
+          placeholder={"email"}
+          name={"email"}
+          component={Input}
+          validate={[required]}
+        />
       </div>
 
       <div>
-        <Field placeholder={"Password"} name={'password'} component={Input} validate={[required]} />
+        <Field
+          placeholder={"Password"}
+          type={"password"}
+          name={"password"}
+          component={Input}
+          validate={[required]}
+        />
       </div>
 
       <div>
-        <Field type={"checkbox"} name={'rememberMe'} component={Input} /> remember me
+        <Field type={"checkbox"} name={"rememberMe"} component={Input} />{" "}
+        remember me
       </div>
 
       <div>
-        <button type={'submit'}>Login</button>
+        <button type={"submit"}>Login</button>
       </div>
     </Form>
-
-    
   );
 };
 
@@ -43,15 +56,14 @@ const LoginReduxForm = reduxForm({
   //по факту это mapStateToProps
 })(LoginForm);
 
-
-
 const Login = (props) => {
-
   const onSubmit = (val) => {
-    
-    console.log(val);
+    //console.log(val);
+    props.loginThunk(val.email, val.password, val.remeberMe);
   };
-
+  if (props.isAuth) {
+    return <Navigate to={"/profile"} />;
+  }
   return (
     <div>
       <h1>LOGIN</h1>
@@ -60,4 +72,7 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+  isAuth: state.auth.isAuth,
+});
+export default connect(mapStateToProps, { loginThunk })(Login);

@@ -5,14 +5,16 @@ import usersReducer from "./user-reducer";
 import authReducer from "./aurth-reducer";
 import { reducer as formReducer } from 'redux-form'
 
-//let store = createStore()-устарел
+
 
 let rootReducer = combineReducers({
     profilePage: contentReducer,
     dialogPage: dialogsReducer,
     usersPage: usersReducer,
     auth: authReducer,
-    form: formReducer//form -забитое слово для redux form
+    form: formReducer
+    
+    //form -забитое слово для redux form
     //для удобства гляди в консоль storee.getState().form
 })
 

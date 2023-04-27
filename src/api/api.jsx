@@ -53,9 +53,14 @@ export const usersAPI = {
 
 export const authAPI={
     me(){ 
-        return instance.get(`auth/me`)
-    }//auth/me в документации https://social-network.samuraijs.com/api/1.0/
-        
+        return instance.get(`auth/me`)//get запросы формируеются через querry ?
+    },
+    login(email,password,rememberMe=false){//так как сюда придут из вне(из ФОРМ нашего)
+      return instance.post(`auth/login`,{email,password,rememberMe})//post формируется с передаваемым объектом
+  }  , 
+    logout(){
+      return instance.delete(`auth/login`) 
+  }   
    
 }
 
