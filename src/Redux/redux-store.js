@@ -4,6 +4,7 @@ import dialogsReducer from "./dialogs-reducer";
 import usersReducer from "./user-reducer";
 import authReducer from "./aurth-reducer";
 import { reducer as formReducer } from 'redux-form'
+import appReducer from "./app-reducer";
 
 
 
@@ -12,7 +13,8 @@ let rootReducer = combineReducers({
     dialogPage: dialogsReducer,
     usersPage: usersReducer,
     auth: authReducer,
-    form: formReducer
+    form: formReducer,
+    app:appReducer
     
     //form -забитое слово для redux form
     //для удобства гляди в консоль storee.getState().form

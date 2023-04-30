@@ -1,15 +1,14 @@
 import React from "react";
 import Header from "./Header";
-import { getAuthUserDataThunk} from "../../Redux/aurth-reducer";
 import { connect } from "react-redux";
 import { logoutThunk } from './../../Redux/aurth-reducer';
 
 
 class HeaderContainer extends React.Component {
 
-  componentDidMount() {
-  this.props.getAuthUserData()
-  }
+  // componentDidMount() {
+  // this.props.getAuthUserData()
+  // } перенесем в апп
 
   render() {
     return <Header {...this.props}  />;
@@ -22,4 +21,4 @@ let mapStateToProps=(state)=> {
   }
 }
 
-export default connect(mapStateToProps,{getAuthUserData:getAuthUserDataThunk,logout:logoutThunk})(HeaderContainer);
+export default connect(mapStateToProps,{logout:logoutThunk})(HeaderContainer);

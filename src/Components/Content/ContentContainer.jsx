@@ -3,34 +3,46 @@ import s from "./Content.module.css";
 import React from "react";
 import { getStatusThunk, getUserProfileThunk, updateStatusThunk} from './../../Redux/content-reducer';
 import Content from "./Content";
-import { Navigate, useParams} from "react-router-dom";
+import { Redirect, useNavigate, useParams} from "react-router-dom";
+import { withAuthRedirect } from "../HOC/withAuthRedirect";
+import { compose } from "redux";
 
 
 
 //создаем свою функцию withRouter используя хук. в сеья принимает класс ContentContainer
 //благодрая этому в this.props придет вкладка match , в из которой useParams достанет id именно из url
 export function withRouter(Children){
+  
   return (props)=>{
 
      const match  = {params: useParams()};
-     return <Children {...props}  match = {match}/>
+
+     return <Children {...props}  navigate={useNavigate() } match = {match}/>
  }
 }
 
 
 class ContentContainer extends React.Component {
+ 
   //componentDidMount один из методов жизненного цикла, в котором мы делаем все аякс запросы, чтобы избежать
   //постоянных запросов, сообщаем компоненте-остановись!
   componentDidMount(){
+  
    let userId=this.props.match.params.userId// из params, которые появляются благодаря useParams
-   if(!userId) {userId=this.props.authorizedUserId}
+   if(!userId) {
+      userId=this.props.authorizedUserId
+    if(!userId){//но если даже авторизованного нет, то из пропсов достаем следующее
+       this.props.navigate('/login')//програмный редирект не пашет
+      
+    }
+   }
    this.props.getUserProfile(userId)
 
    this.props.getStatus(userId)
   }
   
   render() {
-    if(this.props.isAuth===false) return <Navigate to={'/login'}/>
+    
     return (//ведет на /profile/u.id из-за навлинка
 
     //в пропсы кинем функ-ю санку updateStatus ибо тут мы лишь получим его(get) а там уже обновим
@@ -51,11 +63,11 @@ let mapStateToProps=(state)=>({
 //и прокидываем по пропсам далее для отрисовки
 
 
-let WithUrlDataComponent=withRouter(ContentContainer)
+let WithUrlDataComponent=withRouter(ContentContainer)//в отличии от димыча оберунл в это а не в визроутер
 
-export default connect(mapStateToProps,
+export default compose(withAuthRedirect,connect(mapStateToProps,
   {getUserProfile:getUserProfileThunk,
     getStatus:getStatusThunk,
     updateStatus:updateStatusThunk
-})(WithUrlDataComponent)
+}))(WithUrlDataComponent)
 
