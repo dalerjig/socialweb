@@ -81,4 +81,4 @@ class ProfileStatus extends React.Component {
   }
 }
 
-export default ProfileStatus;
+//export default ProfileStatus;
