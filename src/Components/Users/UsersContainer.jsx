@@ -8,6 +8,7 @@ import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import { getUsersThunkCreator } from "./../../Redux/user-reducer";
 import { Navigate } from "react-router-dom";
+import { getCurrentPage, getFollowingProgress, getFolowwingProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from "../../Redux/users-selectors";
 
 // ибо реакт делает так let m1=new Users
 // let jsx= m1.render
@@ -57,18 +58,18 @@ class UsersContainer extends React.Component {
         />
       </>
     );
-  }
+  } 
 }
 
 let mapStateToProps = (state) => {
   return {
     isAuth:state.auth.isAuth,
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingProgress(state),
   };
 };
 
