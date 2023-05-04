@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 // использование хуков реакт запоминает, чтобы при ререндере не опиратся на сайд ж=эффект от хуков
 
 let ProfileStatusWithHooks =(props)=> {
-console.log('rer')
 
 
 
@@ -15,19 +14,19 @@ let activateEditMode=()=>{
 }
 let deActivateEditMode=()=>{
   setEditMode(false);
-  props.updateStatus(status);//просто статус из хука
+  props.updateStatus(status);// статус из хука
 }
 
 let[status,setStatus]=useState(props.status)
 
 let onStatusChange=(e)=>{
-  setStatus(e.currentTarget.value)
-  
+  setStatus(e.currentTarget.value) 
 }
 
 //синхронизация состояния(то же самое что и componentDidUpdate)
 useEffect(()=>{ 
-console.log('useEf') ;setStatus(props.status)},[props.status])
+//console.log('useEf') ;
+setStatus(props.status)},[props.status])
 //при пустом массиве выполнится 1 раз. Так лучше не делать
 //выполнись тогда, когда придет статус из пропсов новый!!!!!!!!!!
   return (

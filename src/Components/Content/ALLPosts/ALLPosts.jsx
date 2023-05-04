@@ -19,11 +19,20 @@ class ALLPosts extends React.PureComponent {
 
 render(){
   console.log('renderrr')// сработает один раз из за PureComponent
-  let PostElement = this.props.posts.map((p) => (
+  let PostElement = [...this.props.posts].reverse().map((p) => (
     <Post message={p.message} LikesCount={p.LikesCount} />
   ));
-
+// reverse мутирует исходный объект, а это не допустимо. поэтому копию мутируем а не ориг стейт
  
+
+// Pure function
+// reducer это тоже чистая функция, не меняет state и action
+// правила которых должна придерживаться чистая функция:
+// 1.иммутабельность - не имеет права изменять входные ссылочные типы данных (props)
+// 2.возвращает данные
+// 3. no side effect - не оставляет какого-то мусора во внешнем мире
+// 4. детерминированность (идемпотентность) - это значит что сколько ни пускай мне на вход одни и те же данные я тебе всегда верну один и тот же ответ
+
   let onAddPost = (values) => {
     this. props.addPost(values.newPostText);
   };
