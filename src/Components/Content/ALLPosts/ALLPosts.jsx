@@ -7,35 +7,37 @@ import {  maxLengthCreator, required } from "../../../utils/validators/validator
 import { Textarea } from "../../common/FormsControls/FormsControls";
 
 const maxLength10=maxLengthCreator(10)//вне компоненты, иначе создание функции будет постоянным из за переренжера
-const ALLPosts = (props) => {
-  
-  let PostElement = props.posts.map((p) => (
+
+class ALLPosts extends React.PureComponent {
+
+    // так как у нас не реализованы реальные посты, ограничиваем обновление компоненты
+  // shouldComponentUpdate(nextProps,nextState){
+  //   return nextProps!=this.props || nextState!=this.state
+  // } 
+  // а можно просто наследоваться от PureComponent
+// А МОЖНО ОБЕРНУТЬ AllPosts в React.memo(AllPosts)
+
+render(){
+  console.log('renderrr')// сработает один раз из за PureComponent
+  let PostElement = this.props.posts.map((p) => (
     <Post message={p.message} LikesCount={p.LikesCount} />
   ));
 
-  //let newPostElem = React.createRef(); //ибо нельзя через гет элемент бай айди
-
+ 
   let onAddPost = (values) => {
-    console.log(values.newPostText)
-    props.addPost(values.newPostText)
-  }; 
-  
-  // let onPostChange = () => {
-  //   let text = newPostElem.current.value;
-  //   props.updateNewPostText(text)
-  // };
-
+    this. props.addPost(values.newPostText);
+  };
 
 
   return (
     <div>
-    <AddNewPostFormRedux onSubmit={onAddPost}/>
+      <AddNewPostFormRedux onSubmit={onAddPost} />
       <div>
-      {PostElement}
-    </div>
+        {PostElement}
+      </div>
     </div>
   );
-};
+}}
 
 let AddNewPostForm=(props)=>{
 
