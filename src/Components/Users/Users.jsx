@@ -2,31 +2,20 @@ import React from "react";
 import userPhoto from "../../assets/images/user.png"; //импорт картинки
 import s from "./Users.module.css";
 import { NavLink } from "react-router-dom";
+import { produceWithPatches } from "immer";
+import Paginator from "../common/Paginator/Paginator";
 
 
 let Users = (props) => {
-  let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize); //общее кол-во людей делим на кол-во отображаемых на одной странице, получаем кол-во страниц
-  //ceil -округление вверх, чтобы на последней странице тоже выводислся остаток пользователей
-  let pages = [];
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-  }
+
 
   return (
     <div>
-      <div>
-        {/* если тру то стиль, если не тру то пустая строка(можно &&). Но вместо тру пишем условие currentPage==p */}
-        {pages.map((p) => {
-          return (
-            <span
-              onClick={() => props.onPageChanged(p)}
-              className={props.currentPage === p && s.selectedPage}
-            >
-              {p}
-            </span>
-          );
-        })}
-      </div>
+       <div><Paginator 
+            onPageChanged={props.onPageChanged} 
+            totalUsersCount={props.totalUsersCount}
+            currentPage={props.currentPage}
+            pageSize={props.pageSize}/></div> 
 
       {props.users.map((u) => (
         <div>
@@ -71,3 +60,5 @@ let Users = (props) => {
   );
 };
 export default Users;
+
+
