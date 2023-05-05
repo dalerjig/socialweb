@@ -5,3 +5,6 @@
 .item img{
   width: 200px;
 }
+.avatar{
+  max-width: 200px;
+}

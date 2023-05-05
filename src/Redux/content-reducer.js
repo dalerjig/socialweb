@@ -1,10 +1,10 @@
 import { profileAPI, usersAPI } from "../api/api"
 
 const ADD_POST = "ADD-POST"
-//const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
 const SET_STATUS = 'SET_STATUS'
 const DELETE_POST = 'DELETE_POST'
+const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
 let initialState = {
     PostData: [
@@ -46,14 +46,6 @@ const contentReducer = (state = initialState, action) => {//для началь�
             }
         }
 
-        // case UPDATE_NEW_POST_TEXT: {
-        //     let stateCopy = {
-        //         ...state,
-        //         newPostText: action.newText
-        //     }
-        //     return stateCopy;
-        // }
-
         case SET_USER_PROFILE: {
 
             return { ...state, profile: action.profile }
@@ -63,7 +55,13 @@ const contentReducer = (state = initialState, action) => {//для началь�
 
             return { ...state, status: action.status }
         }
+       
+        case SAVE_PHOTO_SUCCESS:{
+           
+            return {...state, profile:{...state.profile, photos:action.photos}}
+        }
         default: return state;
+           
     }
 }
 export default contentReducer;
@@ -76,6 +74,7 @@ export const addPostActionCreator = (newPostText) => ({ type: ADD_POST, newPostT
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 export const setStatus = (status) => ({ type: SET_STATUS, status })
 export const deletePost = (postId) => ({ type: DELETE_POST, postId })
+export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos })//PHOTOS ИЗ АПИ
 
 
 
@@ -119,4 +118,10 @@ export const updateStatusThunk = (status) => {
             })
     }
 
+}
+export const savePhotoThunk = (file)=> async(dispatch)=> {
+    
+     let response=await profileAPI.savePhoto(file) 
+     if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos))//дебаж для правильного пути!!!
+    
 }

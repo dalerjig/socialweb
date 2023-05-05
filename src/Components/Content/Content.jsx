@@ -5,7 +5,7 @@ import ALLPostsContainer from "./ALLPosts/ALLPostsContainer";
 const Content = (props) => {
   return (
     <div className={s.Content}>
-      <Profile profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
+      <Profile isOwner={props.isOwner}savePhoto={props.savePhoto} profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
       <ALLPostsContainer/>
     </div>
   );

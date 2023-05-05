@@ -2,7 +2,6 @@ import React from "react";
 import userPhoto from "../../assets/images/user.png"; //импорт картинки
 import s from "./Users.module.css";
 import { NavLink } from "react-router-dom";
-import { produceWithPatches } from "immer";
 import Paginator from "../common/Paginator/Paginator";
 
 

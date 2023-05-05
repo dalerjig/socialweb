@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 //let baseUrl='https://social-network.samuraijs.com/api/1.0'
 
 //в delete with credenTional обязательно 2 объектом как и в get!!!
@@ -79,6 +80,13 @@ export const profileAPI = {
   //в put вторым параметром идет объект, где первый status-наш аргумент, второй из серва
   updateStatus(status){
     return instance.put('profile/status/',{status:status})//put-помести статус
+  },
+  savePhoto(photoFile){
+
+    // для отправки формы делаем так:
+    let formData=new FormData()
+    formData.append('image',photoFile)//первый параметр берем как в доке апи
+    return instance.put('profile/photo/',formData, {headers: {'Content-Type':'multipart/form-data'}})
   }
 
 };
