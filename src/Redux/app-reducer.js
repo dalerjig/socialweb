@@ -38,7 +38,6 @@ export const initialaizeAppThunk =()=> (dispatch) => {
 //  dispatch(smth2) поэтому в getAuthUserDataThunk важен return и  дожидаемся выполнения
 // всех диспатчей и чтобы только после них(а особенно после getAuthUserDataThunk ) перед строкой кода ниже
  //promise.then(()=>dispatch(initialaizedSucces()))
- 
  //а если много промисов
  Promise.all([promise]).then(()=>{dispatch(initialaizedSucces())})
 }

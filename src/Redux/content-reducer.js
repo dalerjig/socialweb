@@ -11,7 +11,7 @@ let initialState = {
         { id: 0, message: "Hi! How are you?", LikesCount: 13 },
         { id: 1, message: "It is my first post!", LikesCount: 26 },
     ],
-   // newPostText: "",
+    // newPostText: "",
     profile: null, //для пользователей
     status: ""
 }
@@ -27,9 +27,11 @@ const contentReducer = (state = initialState, action) => {//для началь�
     switch (action.type) {
         case ADD_POST: {
 
-            let newPost = { id: 5, 
+            let newPost = {
+                id: 5,
                 message: action.newPostText, //ибо теперь этот текст не из нашего стейта, а из экшн, а экш берет из редаксФорм Стейта
-                LikesCount: 0 }
+                LikesCount: 0
+            }
             return {
                 ...state,
                 PostData: [...state.PostData, newPost],
@@ -40,7 +42,7 @@ const contentReducer = (state = initialState, action) => {//для началь�
 
             return {
                 ...state,
-                PostData: [state.PostData.filter(p=>p.id!=action.postId)]
+                PostData: [state.PostData.filter(p => p.id !== action.postId)]
             }
         }
 
@@ -69,7 +71,7 @@ export default contentReducer;
 // export const addPostActionCreator=()=>{
 //     return {type:ADD_POST}
 //   }
-export const addPostActionCreator = (newPostText) => ({ type: ADD_POST,newPostText })
+export const addPostActionCreator = (newPostText) => ({ type: ADD_POST, newPostText })
 //export const updateNewPostTextActionCreator = (text) => ({ type: UPDATE_NEW_POST_TEXT, newText: text })
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 export const setStatus = (status) => ({ type: SET_STATUS, status })
@@ -92,21 +94,29 @@ export const getUserProfileThunk = (userId) => {
     }
 }
 
-export const getStatusThunk = (userId) => {
-    return (dispatch) => {
-        profileAPI.getStatus(userId)
-            .then((response)=>{
-                dispatch(setStatus(response.data))
-            })
-}
+// export const getStatusThunk = (userId) => {
+//     return (dispatch) => {
+//         profileAPI.getStatus(userId)
+//             .then((response)=>{
+//                 dispatch(setStatus(response.data))
+//             })
+// }
+// }
+//ПИШИ ТЕПЕРЬ ТОЛЬКО ТАААК
+export const getStatusThunk = (userId) => async (dispatch) => {
+    let response = await profileAPI.getStatus(userId)
+
+    dispatch(setStatus(response.data))
+
 
 }
+
 export const updateStatusThunk = (status) => {
     return (dispatch) => {
         profileAPI.updateStatus(status)
-            .then((response)=>{
-                if(response.data.resultCode===0){dispatch(setStatus(status))}  
+            .then((response) => {
+                if (response.data.resultCode === 0) { dispatch(setStatus(status)) }
             })
-}
+    }
 
 }
