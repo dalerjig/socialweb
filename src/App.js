@@ -29,7 +29,7 @@ class App extends React.Component { //теперь апп-тег <App/>
   }
 
   render() {
-    if(!this.props.initialaized){return <Preloader/>}
+    if(!this.props.initialized){return <Preloader/>}
     
 
     return <BrowserRouter>
@@ -64,7 +64,7 @@ class App extends React.Component { //теперь апп-тег <App/>
 
 
 const mapStateToProps=(state)=>({
-  initialaized:state.app.initialaized
+  initialized:state.app.initialized
 })
 
 export default compose(withRouter, connect(mapStateToProps,{initialaizeAppThunk}))(App) ;

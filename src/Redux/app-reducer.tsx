@@ -1,24 +1,29 @@
+
+
 import { getAuthUserDataThunk } from "./aurth-reducer";
 
 
 
 const INITIALAIZED_SUCCESS = "INITIALAIZED_SUCCESS"
 
+export type InitialStateType={
+    initialized:boolean
+}
 
-let initialState = {
-    initialaized: false
+let initialState:InitialStateType = {
+    initialized: false
 
 }
 
 
-const appReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action):InitialStateType => {
 //debugger
     switch (action.type) {
         case INITIALAIZED_SUCCESS: {
 
             return {
                 ...state,
-                initialaized: true
+                initialized: true
             }
         }
 
@@ -28,8 +33,11 @@ const appReducer = (state = initialState, action) => {
 }
 export default appReducer;
 
+type InitializedSuccessActionType={
+    type:typeof INITIALAIZED_SUCCESS
+}
 
-export const initialaizedSucces = () => ({ type: INITIALAIZED_SUCCESS})
+export const initialaizedSucces = ():InitializedSuccessActionType => ({ type: INITIALAIZED_SUCCESS})
 
 
 export const initialaizeAppThunk =()=> (dispatch) => { 
@@ -41,10 +49,3 @@ export const initialaizeAppThunk =()=> (dispatch) => {
  //а если много промисов
  Promise.all([promise]).then(()=>{dispatch(initialaizedSucces())})
 }
-
-
-
-
-
-
-//ThunkActionCreator
