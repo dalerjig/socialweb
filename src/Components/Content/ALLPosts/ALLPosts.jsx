@@ -37,8 +37,9 @@ render(){
     this. props.addPost(values.newPostText);
   };
 
-
+ 
   return (
+    
     <div>
       <AddNewPostFormRedux onSubmit={onAddPost} />
       <div>

@@ -6,23 +6,57 @@ const SET_STATUS = 'SET_STATUS'
 const DELETE_POST = 'DELETE_POST'
 const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
+type PostType = {
+    id: number,
+    message: String,
+    LikesCount: number
+}
+
+type ContactsType={
+    github: string,
+    vk: string,
+    facebook: string,
+    instagram: string,
+    twitter: string,
+    website: string,
+    youtube: string,
+    mainLink: string
+}
+
+type PhotosType={
+    small:string|null,
+    large:string|null
+}
+type ProfileType = {
+    userId: number,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string, 
+    contacts: ContactsType, 
+    photos:PhotosType
+}
+// type StatusType={
+//     status:string
+// } излишнее
+
 let initialState = {
     PostData: [
         { id: 0, message: "Hi! How are you?", LikesCount: 13 },
         { id: 1, message: "It is my first post!", LikesCount: 26 },
-    ],
-    // newPostText: "",
-    profile: null, //для пользователей
-    status: ""
+    ] as Array<PostType>,
+    profile: null as ProfileType | null, //для пользователей
+    status: "",
+    newPostText:""
 }
 
+export  type InitialStateType=typeof initialState
 // reducer должен как и все наши фун-е компоненты быть иммутабельным
 // на входе имеет стейт и экшн. стейт меняется==нарушение иммутабельности
 // для этого делаем внутри функции локальную копию стейта, в которой будут происходить изменения
 // 1) вход-ориг стейт, 2) создание копии стейта(работа с копией) 3) выход-ориг стейт
 
 
-const contentReducer = (state = initialState, action) => {//для начальной компиляции используем начальный стейт
+const contentReducer = (state = initialState, action:any):InitialStateType => {//для начальной компиляции используем начальный стейт
 
     switch (action.type) {
         case ADD_POST: {
@@ -42,7 +76,7 @@ const contentReducer = (state = initialState, action) => {//для началь�
 
             return {
                 ...state,
-                PostData: [state.PostData.filter(p => p.id !== action.postId)]
+                PostData: state.PostData.filter(p => p.id !== action.postId)
             }
         }
 
@@ -55,26 +89,55 @@ const contentReducer = (state = initialState, action) => {//для началь�
 
             return { ...state, status: action.status }
         }
-       
-        case SAVE_PHOTO_SUCCESS:{
-           
-            return {...state, profile:{...state.profile, photos:action.photos}}
+
+        case SAVE_PHOTO_SUCCESS: {
+
+            return { ...state, profile: { ...state.profile, photos: action.photos } as ProfileType}
         }
         default: return state;
-           
+
     }
 }
 export default contentReducer;
 
+
+type AddPostActionCreatorActionType={
+    type:typeof ADD_POST,
+    newPostText:string
+}
 // export const addPostActionCreator=()=>{
 //     return {type:ADD_POST}
 //   }
-export const addPostActionCreator = (newPostText) => ({ type: ADD_POST, newPostText })
+export const addPostActionCreator = (newPostText:string):AddPostActionCreatorActionType => ({ type: ADD_POST, newPostText })
 //export const updateNewPostTextActionCreator = (text) => ({ type: UPDATE_NEW_POST_TEXT, newText: text })
-export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
-export const setStatus = (status) => ({ type: SET_STATUS, status })
-export const deletePost = (postId) => ({ type: DELETE_POST, postId })
-export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos })//PHOTOS ИЗ АПИ
+
+type SetUserProfileActionType={
+    type:typeof SET_USER_PROFILE,
+    profile:ProfileType
+}
+
+export const setUserProfile = (profile:ProfileType):SetUserProfileActionType => ({ type: SET_USER_PROFILE, profile })
+
+type SetStatusActionType={
+    type:typeof SET_STATUS,
+    status:string
+}
+
+export const setStatus = (status:string):SetStatusActionType => ({ type: SET_STATUS, status })
+
+type DeletePostActionType={
+    type: typeof DELETE_POST,
+    postId:number
+}
+
+export const deletePost = (postId:number):DeletePostActionType => ({ type: DELETE_POST, postId })
+
+export type SavePhotoSuccessActionType={
+    type: typeof SAVE_PHOTO_SUCCESS, 
+    photos:PhotosType
+}
+
+export const savePhotoSuccess = (photos:PhotosType):SavePhotoSuccessActionType => ({ type: SAVE_PHOTO_SUCCESS, photos })//PHOTOS ИЗ АПИ
 
 
 
@@ -82,8 +145,8 @@ export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos 
 // 1)Создать ThunkAC который вернет Thunk функцию, учитывая что она делает асинхронные операции.
 // 2)Thunk функция возвращает в виде промиса диспатч, который вызывает либо экшн креатор, либо просто функцию
 
-export const getUserProfileThunk = (userId) => {
-    return (dispatch) => {
+export const getUserProfileThunk = (userId:number) => {
+    return (dispatch:any) => {
         usersAPI.getProfile(userId)
             .then((response) => {
                 //debugger //лучше тут дебажить чтобы посмотреть что приходит с сервера. С сервера приходит http-обеъкт+информация о разметке
@@ -102,7 +165,7 @@ export const getUserProfileThunk = (userId) => {
 // }
 // }
 //ПИШИ ТЕПЕРЬ ТОЛЬКО ТАААК
-export const getStatusThunk = (userId) => async (dispatch) => {
+export const getStatusThunk = (userId:number) => async (dispatch:any) => {
     let response = await profileAPI.getStatus(userId)
 
     dispatch(setStatus(response.data))
@@ -110,8 +173,8 @@ export const getStatusThunk = (userId) => async (dispatch) => {
 
 }
 
-export const updateStatusThunk = (status) => {
-    return (dispatch) => {
+export const updateStatusThunk = (status:string) => {
+    return (dispatch:any) => {
         profileAPI.updateStatus(status)
             .then((response) => {
                 if (response.data.resultCode === 0) { dispatch(setStatus(status)) }
@@ -119,9 +182,9 @@ export const updateStatusThunk = (status) => {
     }
 
 }
-export const savePhotoThunk = (file)=> async(dispatch)=> {
-    
-     let response=await profileAPI.savePhoto(file) 
-     if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos))//дебаж для правильного пути!!!
-    
+export const savePhotoThunk = (file:any) => async (dispatch:any) => {
+
+    let response = await profileAPI.savePhoto(file)
+    if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos))//дебаж для правильного пути!!!
+
 }

@@ -1,24 +1,37 @@
 //const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
 const SEND_MESSAGE = "SEND-MESSAGE"
 
+
+type DialogType={
+    id: number,
+    name:string
+}
+
+type MessageType={
+    id: number,
+    message:string
+}
+
 let initialState = {
     DialogData: [
         { id: 1, name: "Daler" },
         { id: 2, name: "July" },
         { id: 3, name: "Polina" },
         { id: 4, name: "Dior" },
-    ],
+    ] as Array<DialogType>,// "как массив"
 
     MessageData: [
         { id: 1, message: "hi" },
         { id: 2, message: "FROOOGS" },
         { id: 3, message: "WHOOOAAAA" },
         { id: 4, message: "4:20" },
-    ]
+    ]as Array<MessageType>
    // newMessageBody: '' из за формы больше не надо
 }
 
-const dialogsReducer = (state = initialState, action) => {
+export type InitialStateType=typeof initialState
+
+const dialogsReducer = (state = initialState, action:any):InitialStateType => {
     //важно сначала передать стейт а потом уже экшн
     //let stateCopy;// чтобы избавиться от {}
     //избавимся от переменной copy
@@ -53,7 +66,12 @@ const dialogsReducer = (state = initialState, action) => {
 
 export default dialogsReducer;
 
-export const sendMessageActionCreator = (newMessageBody) => ({ type: SEND_MESSAGE,newMessageBody })
+type SendMessageActionCreatorType={
+    type:typeof SEND_MESSAGE,
+    newMessageBody:string
+}
+
+export const sendMessageActionCreator = (newMessageBody:string) => ({ type: SEND_MESSAGE,newMessageBody })
 //export const updateNewMessageBodyActionCreator = (body) => ({ type: UPDATE_NEW_MESSAGE_BODY, body: body })
 //теперьт занулением занимается редакс форм
 
