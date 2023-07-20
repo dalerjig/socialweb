@@ -16,7 +16,7 @@ let initialState:InitialStateType = {
 }
 
 
-const appReducer = (state = initialState, action):InitialStateType => {
+const appReducer = (state = initialState, action:any):InitialStateType => {
 //debugger
     switch (action.type) {
         case INITIALAIZED_SUCCESS: {
@@ -40,7 +40,7 @@ type InitializedSuccessActionType={
 export const initialaizedSucces = ():InitializedSuccessActionType => ({ type: INITIALAIZED_SUCCESS})
 
 
-export const initialaizeAppThunk =()=> (dispatch) => { 
+export const initialaizeAppThunk =()=> (dispatch:any) => { 
  let promise= dispatch(getAuthUserDataThunk())
 //  dispatch(smth)это все ассинхронно выполняетс.
 //  dispatch(smth2) поэтому в getAuthUserDataThunk важен return и  дожидаемся выполнения
